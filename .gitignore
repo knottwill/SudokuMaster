@@ -1,2 +1,5 @@
+# ignore test puzzles
 puzzles/
-sandbox/
+
+# sandbox is where I do prototyping (in .ipynb files mainly)
+sandbox/ 
