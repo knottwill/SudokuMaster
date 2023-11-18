@@ -12,14 +12,19 @@ Will include:
 
 ## Contents
 
+A rough idea of the project directory will be:
 ```
 ├── src
-│   ├── solve_sudoku.py
-│   └──
+│   ├── loading
+│   │   ├── __init__.py
+│   │   ├── loading_puzzles.py
+│   │   └── validating_puzzles.py
+│   └──solve_sudoku.py
 └── test
 │   ├── __init__.py
 │   └── 
 ├── .gitignore
-├── README.md
-└── LICENSE
+├── LICENSE
+└── README.md
 ```
+
