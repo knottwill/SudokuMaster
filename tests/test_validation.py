@@ -73,7 +73,7 @@ def test_validate_puzzle():
             [0, 0, 0, 6, 0, 0, 0, 0, 0],
         ]
     )
-    assert validate_puzzle(puzzle)
+    assert validate_puzzle(puzzle) == "Valid"
 
     # invalid puzzle due to invalid dimensions
     puzzle = np.array(
@@ -102,11 +102,11 @@ def test_validate_puzzle():
     )
     assert validate_puzzle(puzzle) == "Invalid entries"
 
-    # duplicate numbers in cells
+    # duplicate numbers in blocks
     puzzle = np.array(
         [
             [0, 0, 0, 0, 0, 7, 0, 0, 0],
-            [0, 0, 0, 0, 0, 9, 5, 0, 4],  # duplicate 4 in top right cell
+            [0, 0, 0, 0, 0, 9, 5, 0, 4],  # duplicate 4 in top right block
             [0, 0, 0, 0, 5, 0, 1, 4, 9],
             [0, 8, 0, 0, 0, 0, 3, 0, 5],
             [0, 7, 5, 0, 0, 0, 2, 9, 0],
@@ -116,7 +116,7 @@ def test_validate_puzzle():
             [0, 0, 0, 6, 0, 0, 0, 0, 0],
         ]
     )
-    assert validate_puzzle(puzzle) == "Duplicate numbers in cell(s)"
+    assert validate_puzzle(puzzle) == "Duplicate numbers in block(s)"
 
     # duplicate numbers in row
     puzzle = np.array(

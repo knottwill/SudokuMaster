@@ -70,21 +70,63 @@ def validate_form(sudoku_str):
     return (True, puzzle)
 
 
-def validate_puzzle(sudoku_arr):
+def is_unique(arr):
     """!
-    @brief Check if a 9x9 NumPy array adheres to Sudoku rules
+    @brief Checks if all non-zero numbers in a 1D array are unique
+    """
+    arr = arr[arr > 0]  # Remove zeros
+    return len(arr) == len(np.unique(arr))
+
+
+def validate_puzzle(puzzle):
+    """!
+    @brief Check if a 9x9 numpy array is a valid Sudoku puzzle
 
     @details
-    The function verifies that each number 1-9 appears no more than once in
-    each row, column, and 3x3 subgrid of the puzzle.
+    This function checks for correct dimensions, valid entries, and
+    whether there are duplicate numbers in each row, column or 3x3
+    block of the puzzle
 
     Note:
     The function does not check if the puzzle is solvable
 
     @param sudoku_arr: numpy.ndarray, A 9x9 NumPy array representing a Sudoku puzzle.
 
-    @return bool: True if the puzzle adheres to Sudoku rules, False otherwise.
+    @return str: "Valid" if the puzzle adheres to Sudoku rules, error message otherwise.
     """
-    # check its a numpy array
 
-    # check its shape is (9,9)
+    # check puzzle is numpy array
+    assert isinstance(puzzle, np.ndarray)
+
+    # check if the puzzle is 9x9
+    if puzzle.shape != (9, 9):
+        return "Invalid dimensions"
+
+    # check if puzzle contains only integers from 0 to 9
+    if not np.all(np.isin(puzzle, range(10))):
+        return "Invalid entries"
+
+    # check each row, column, and 3x3 block
+    for i in range(9):
+        row = puzzle[i, :]
+        col = puzzle[:, i]
+
+        if not is_unique(row):
+            return "Duplicate numbers in row(s)"
+
+        if not is_unique(col):
+            return "Duplicate numbers in column(s)"
+
+        # vertical index of top left cell in block
+        vert_i = 3 * (i // 3)
+
+        # horizontal index of top left cell in block
+        hor_i = 3 * (i % 3)
+
+        block = puzzle[vert_i:vert_i + 3, hor_i:hor_i + 3]
+        block = block.flatten()
+
+        if not is_unique(block):
+            return "Duplicate numbers in block(s)"
+
+    return "Valid"

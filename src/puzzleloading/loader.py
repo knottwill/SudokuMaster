@@ -6,7 +6,7 @@
 @author Created by William Knottenbelt
 """
 
-from validation import validate_form
+from src.puzzleloading.validation import validate_form, validate_puzzle
 
 
 def load_puzzle(filepath):
@@ -37,6 +37,11 @@ def load_puzzle(filepath):
         print(f"File contains INVALID FORMAT: {output}")
         return 0
 
-    # Validate puzzle conforms to sudoku rules
+    # Validate that puzzle conforms to sudoku rules
+    # if invalid, returns error message
+    message = validate_puzzle(puzzle)
+    if message != "Valid":
+        print(f"Puzzle does not comply to sudoku rules: {message}")
+        return 0
 
     return puzzle
