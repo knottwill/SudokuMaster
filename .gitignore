@@ -1,5 +1,8 @@
-# ignore test puzzles
+# ignore puzzles
 puzzles/
 
 # sandbox is where I do prototyping (in .ipynb files mainly)
-sandbox/ 
+sandbox/
+
+__pycache__/
+.pytest_cache
