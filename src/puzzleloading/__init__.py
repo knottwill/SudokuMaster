@@ -1,3 +1,3 @@
-"""
-add docstring for this package
+"""!@package puzzleloading
+@brief Contains all functionality for loading, validating and saving puzzles
 """

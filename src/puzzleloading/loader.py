@@ -1,14 +1,23 @@
+"""!@file loader.py
+@brief Module containing tools loading puzzles
+
+@details This module contains tools for loading puzzles
+
+@author Created by William Knottenbelt
+"""
+
 import numpy as np
 
 
 def load_puzzle(filepath):
-    """
-    Function loads sudoku puzzles from text files to numpy arrays
+    """!@brief Function loads sudoku puzzles from text files to numpy arrays.
 
+    @details
     The format for a sudoku puzzle just needs to be:
     - 9 digits in a row (can be separated by any of the following separators: | + - , or a space " ")
     - rows separated by new-lines
     - rows can also be separated by lines containing only the separators | + - , or spaces " "
+
     """
 
     # ensuring the file provided is a text file
