@@ -107,7 +107,7 @@ def validate_puzzle(puzzle):
         return "Invalid entries"
 
     # check if puzzle is empty
-    if np.array_equal(puzzle, np.zeros((9,9))):
+    if np.array_equal(puzzle, np.zeros((9, 9))):
         return "Puzzle is empty"
 
     # check each row, column, and 3x3 block

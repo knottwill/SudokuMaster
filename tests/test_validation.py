@@ -87,7 +87,7 @@ def test_validate_puzzle():
     assert validate_puzzle(puzzle) == "Invalid dimensions"
 
     # empty puzzle
-    puzzle = np.zeros((9,9))
+    puzzle = np.zeros((9, 9))
     assert validate_puzzle(puzzle) == "Puzzle is empty"
 
     # invalid entry

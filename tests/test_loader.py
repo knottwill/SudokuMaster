@@ -1,5 +1,6 @@
 import numpy as np
-from src.puzzleloading.loader import load_puzzle
+from src.puzzleloading.loader import load_puzzle, save_puzzle
+import pytest
 
 
 def test_load_puzzle():
@@ -31,3 +32,32 @@ def test_load_puzzle():
     # invalid puzzle (does not conform to sudoku rules)
     loaded_item = load_puzzle("tests/test_puzzles/invalid_puzzle.txt")
     assert loaded_item == 0
+
+
+def test_save_puzzle():
+    """
+    Test save_puzzle
+    """
+
+    # example valid puzzle
+    real_path = "tests/test_puzzles/valid.txt"
+    valid_puzzle = load_puzzle(real_path)
+
+    # test for saving valid puzzle
+    savepath = "puzzles/savetest.txt"
+    save_puzzle(savepath, valid_puzzle)
+
+    # read the file and check if the content is correct
+    with open(savepath, "r") as saved_file, open(real_path, "r") as valid_file:
+        saved_file.read() == valid_file.read()
+
+    # test for invalid puzzle
+    invalid_puzzle = np.zeros((9, 9))
+    valid_savepath = "puzzles/never_exist.txt"
+    with pytest.raises(AssertionError):
+        save_puzzle(valid_savepath, invalid_puzzle)
+
+    # test for invalid extension
+    invalid_savepath = "puzzles/never_exist.py"
+    with pytest.raises(AssertionError):
+        save_puzzle(invalid_savepath, valid_puzzle)
