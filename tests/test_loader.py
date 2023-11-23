@@ -1,5 +1,5 @@
 import numpy as np
-from src.puzzleloading.loader import load_puzzle, save_puzzle
+from src.puzzleloading.loader import load_puzzle, save_puzzle, puzzle_to_string
 import pytest
 
 
@@ -61,3 +61,16 @@ def test_save_puzzle():
     invalid_savepath = "puzzles/never_exist.py"
     with pytest.raises(AssertionError):
         save_puzzle(invalid_savepath, valid_puzzle)
+
+
+def test_puzzle_to_string():
+
+    # example valid puzzle
+    filepath = "tests/test_puzzles/valid.txt"
+    puzzle = load_puzzle(filepath)
+
+    # read the file and check if the content is correct
+    with open(filepath, "r") as file:
+        content = file.read()
+
+    assert puzzle_to_string(puzzle) == content

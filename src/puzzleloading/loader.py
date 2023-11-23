@@ -47,12 +47,10 @@ def load_puzzle(filepath):
     return puzzle
 
 
-def save_puzzle(filepath, puzzle):
+def puzzle_to_string(puzzle):
+    """!
+    @brief Convert numpy array as sudoku puzzle to a string
     """
-    @brief Save a 9x9 numpy array as a sudoku puzzle to a given file.
-    """
-    # check that we are saving to a text file
-    assert filepath.endswith(".txt"), "Filepath must end with .txt"
 
     # assert that the puzzle is a valid sudoku puzzle
     assert (
@@ -70,6 +68,26 @@ def save_puzzle(filepath, puzzle):
         puzzle_str += "|".join([row_str[i:i + 3] for i in [0, 3, 6]])  # add |
         puzzle_str += "\n"  # new line
 
+    return puzzle_str
+
+
+def save_puzzle(filepath, puzzle):
+    """!
+    @brief Save a 9x9 numpy array as a sudoku puzzle to a given file.
+    """
+    # check that we are saving to a text file
+    assert filepath.endswith(".txt"), "Filepath must end with .txt"
+
+    # get puzzle as string
+    puzzle_str = puzzle_to_string(puzzle)
+
     # Write the formatted string to the file
     with open(filepath, "w") as file:
         file.write(puzzle_str)
+
+
+def print_puzzle(puzzle):
+    """!
+    @brief Prints numpy array as sudoku puzzle
+    """
+    print(puzzle_to_string(puzzle))
