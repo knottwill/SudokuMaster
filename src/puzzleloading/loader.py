@@ -6,7 +6,7 @@
 @author Created by William Knottenbelt
 """
 
-import numpy as np
+from validation import validate_form
 
 
 def load_puzzle(filepath):
@@ -26,20 +26,17 @@ def load_puzzle(filepath):
     with open(filepath, "r") as file:
         text = file.read()
 
-    # remove separators (special characters), spaces and empty lines
-    text = text.replace("|", "").replace("+", "").replace("-", "").replace(",", "")
-    text = text.replace(" ", "")
-    text = text.replace("\n\n", "\n")
+    # Validate format of contents
+    # if valid format, output is 9x9 array containing puzzle
+    valid_format, output = validate_form(text)
+    if valid_format:
+        # output is array containing puzzle
+        puzzle = output
+    else:
+        # output is error message
+        print(f"File contains INVALID FORMAT: {output}")
+        return 0
 
-    # convert to list of rows
-    rows = text.split("\n")
-    rows = [row for row in rows if row != ""]  # remove empty rows
-
-    # ------------
-    # Add functionality to validate puzzle
-    # ------------
-
-    # convert to array
-    puzzle = np.array([[int(char) for char in row] for row in rows])
+    # Validate puzzle conforms to sudoku rules
 
     return puzzle
