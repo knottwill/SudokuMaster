@@ -1,12 +1,12 @@
-"""!@file loader.py
-@brief Module containing tools loading puzzles
+"""!@file io.py
+@brief Input/Output: Module containing tools loading, saving and printing puzzles
 
-@details This module contains tools for loading and saving puzzles
+@details This module contains tools for...
 
 @author Created by William Knottenbelt
 """
 
-from src.puzzleloading.validation import validate_form, validate_puzzle
+from src.toolkit.validation import validate_form, validate_puzzle
 
 
 def load_puzzle(filepath):

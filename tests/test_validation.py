@@ -1,5 +1,5 @@
 import numpy as np
-from src.puzzleloading.validation import validate_form, validate_puzzle
+from src.toolkit.validation import validate_form, validate_puzzle
 
 
 def test_validate_form():

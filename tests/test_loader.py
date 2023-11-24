@@ -1,5 +1,5 @@
 import numpy as np
-from src.puzzleloading.loader import load_puzzle, save_puzzle, puzzle_to_string
+from src.toolkit.io import load_puzzle, save_puzzle, puzzle_to_string
 import pytest
 
 
