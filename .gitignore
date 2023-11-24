@@ -4,6 +4,9 @@ puzzles/
 # sandbox is where I do prototyping (in .ipynb files mainly)
 sandbox/
 
+# ignore cache files
 __pycache__/
 .pytest_cache
+
+# ignore jupyter notebooks
 .ipynb
