@@ -65,7 +65,7 @@ def puzzle_to_string(puzzle):
             puzzle_str += "---+---+---\n"
 
         row_str = "".join(str(num) for num in row)  # convert row to string
-        puzzle_str += "|".join([row_str[i:i + 3] for i in [0, 3, 6]])  # add |
+        puzzle_str += "|".join([row_str[i : i + 3] for i in [0, 3, 6]])  # add |
         puzzle_str += "\n"  # new line
 
     return puzzle_str

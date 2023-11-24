@@ -127,7 +127,7 @@ def validate_puzzle(puzzle):
         # horizontal index of top left cell in block
         hor_i = 3 * (i % 3)
 
-        block = puzzle[vert_i:vert_i + 3, hor_i:hor_i + 3]
+        block = puzzle[vert_i : vert_i + 3, hor_i : hor_i + 3]
         block = block.flatten()
 
         if not is_unique(block):
