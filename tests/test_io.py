@@ -64,7 +64,6 @@ def test_save_puzzle():
 
 
 def test_puzzle_to_string():
-
     # example valid puzzle
     filepath = "tests/test_puzzles/valid.txt"
     puzzle = load_puzzle(filepath)
