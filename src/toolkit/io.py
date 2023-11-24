@@ -90,4 +90,14 @@ def print_puzzle(puzzle):
     """!
     @brief Prints numpy array as sudoku puzzle
     """
-    print(puzzle_to_string(puzzle))
+    puzzle_str = puzzle_to_string(puzzle)
+
+    # add spaces after all digits
+    puzzle_str = "".join(
+        [char + " " if char.isdigit() else char for char in puzzle_str]
+    )
+
+    # add additional '-' so the printing looks correct
+    puzzle_str = "".join([char + "-" if char == "-" else char for char in puzzle_str])
+
+    print(puzzle_str)
