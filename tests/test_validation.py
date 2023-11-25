@@ -1,5 +1,107 @@
 import numpy as np
-from src.toolkit.validation import validate_puzzle
+from src.toolkit.validation import validate_puzzle, validate_filled, validate_solution
+
+
+def test_validate_filled():
+    """
+    Test validate_filled
+    """
+    # test valid filled board
+    valid_filled = np.array(
+        [
+            [5, 9, 4, 1, 6, 7, 8, 3, 2],
+            [6, 1, 8, 2, 3, 9, 5, 7, 4],
+            [2, 3, 7, 4, 5, 8, 1, 6, 9],
+            [9, 8, 1, 7, 2, 6, 3, 4, 5],
+            [3, 7, 5, 8, 4, 1, 2, 9, 6],
+            [4, 2, 6, 3, 9, 5, 7, 8, 1],
+            [7, 6, 2, 5, 8, 4, 9, 1, 3],
+            [1, 4, 3, 9, 7, 2, 6, 5, 8],
+            [8, 5, 9, 6, 1, 3, 4, 2, 7],
+        ]
+    )
+
+    assert validate_filled(valid_filled) == "Valid"
+
+    # test valid unfilled
+    valid_unfilled = np.array(
+        [
+            [0, 0, 0, 0, 0, 7, 0, 0, 0],
+            [0, 0, 0, 0, 0, 9, 5, 0, 4],
+            [0, 0, 0, 0, 5, 0, 1, 6, 9],
+            [0, 8, 0, 0, 0, 0, 3, 0, 5],
+            [0, 7, 5, 0, 0, 0, 2, 9, 0],
+            [4, 0, 6, 0, 0, 0, 0, 8, 0],
+            [7, 6, 2, 0, 8, 0, 0, 0, 0],
+            [1, 0, 3, 9, 0, 0, 0, 0, 0],
+            [0, 0, 0, 6, 0, 0, 0, 0, 0],
+        ]
+    )
+    assert validate_filled(valid_unfilled) == "Unfilled"
+
+    # test invalid
+    invalid = np.array(
+        [
+            [5, 5, 5, 1, 6, 7, 8, 3, 2],
+            [6, 1, 8, 2, 3, 9, 5, 7, 4],
+            [2, 3, 7, 4, 5, 8, 1, 6, 9],
+            [9, 8, 1, 7, 2, 6, 3, 4, 5],
+            [3, 7, 5, 8, 4, 1, 2, 9, 6],
+            [4, 2, 6, 3, 9, 5, 7, 8, 1],
+            [7, 6, 2, 5, 8, 4, 9, 1, 3],
+            [1, 4, 3, 9, 7, 2, 6, 5, 8],
+            [8, 5, 9, 6, 1, 3, 4, 2, 7],
+        ]
+    )
+    assert validate_filled(invalid).startswith("Invalid")
+
+
+def test_validate_solution():
+    puzzle = np.array(
+        [
+            [0, 0, 0, 0, 0, 7, 0, 0, 0],
+            [0, 0, 0, 0, 0, 9, 5, 0, 4],
+            [0, 0, 0, 0, 5, 0, 1, 6, 9],
+            [0, 8, 0, 0, 0, 0, 3, 0, 5],
+            [0, 7, 5, 0, 0, 0, 2, 9, 0],
+            [4, 0, 6, 0, 0, 0, 0, 8, 0],
+            [7, 6, 2, 0, 8, 0, 0, 0, 0],
+            [1, 0, 3, 9, 0, 0, 0, 0, 0],
+            [0, 0, 0, 6, 0, 0, 0, 0, 0],
+        ]
+    )
+
+    valid_solution = np.array(
+        [
+            [5, 9, 4, 1, 6, 7, 8, 3, 2],
+            [6, 1, 8, 2, 3, 9, 5, 7, 4],
+            [2, 3, 7, 4, 5, 8, 1, 6, 9],
+            [9, 8, 1, 7, 2, 6, 3, 4, 5],
+            [3, 7, 5, 8, 4, 1, 2, 9, 6],
+            [4, 2, 6, 3, 9, 5, 7, 8, 1],
+            [7, 6, 2, 5, 8, 4, 9, 1, 3],
+            [1, 4, 3, 9, 7, 2, 6, 5, 8],
+            [8, 5, 9, 6, 1, 3, 4, 2, 7],
+        ]
+    )
+
+    assert validate_solution(puzzle, valid_solution) == "Valid"
+
+    invalid_solution = np.array(
+        [
+            [4, 9, 4, 1, 6, 7, 8, 3, 2],
+            [6, 1, 8, 2, 3, 9, 5, 7, 4],
+            [2, 3, 7, 4, 5, 8, 1, 6, 9],
+            [9, 8, 1, 7, 2, 6, 3, 4, 5],
+            [3, 7, 5, 8, 4, 1, 2, 9, 6],
+            [4, 2, 6, 3, 9, 5, 7, 8, 1],
+            [7, 6, 2, 5, 8, 4, 9, 1, 3],
+            [1, 4, 3, 9, 7, 2, 6, 5, 8],
+            [8, 5, 9, 6, 1, 3, 4, 2, 7],
+        ]
+    )
+
+    assert validate_solution(puzzle, invalid_solution) != "Valid"
 
 
 def test_validate_puzzle():
