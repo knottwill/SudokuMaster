@@ -6,6 +6,48 @@
 import numpy as np
 
 
+def validate_filled(puzzle):
+    """!
+    @brief Evaluates whether a sudoku puzzle is entirely filled.
+    """
+
+    message = validate_puzzle(puzzle)
+    if message != "Valid":
+        return f"Invalid: {message}"
+
+    filled = 0 not in puzzle
+
+    if filled:
+        return "Valid"
+    return "Unfilled"
+
+
+def validate_solution(puzzle, solution):
+    """!
+    @brief Validates whether a given solution is valid solution of a given puzzle
+    """
+
+    # if the solution is not a filled puzzle, it is not a solution
+    filled_message = validate_filled(solution)
+    if filled_message != "Valid":
+        return "Solution is " + filled_message
+
+    # if the puzzle is invalid, there can be no solutions
+    if validate_puzzle(puzzle) != "Valid":
+        return "Puzzle Invalid"
+
+    # indices of 'givens' - filled squares in puzzle
+    given_indices = np.nonzero(puzzle)
+
+    # given squares must be the same in solution
+    givens_consistent = all(solution[given_indices] == puzzle[given_indices])
+    if not givens_consistent:
+        return "Solution not consistent with given squares in puzzle"
+
+    # all conditions for valid solution are satisfied if we get here
+    return "Valid"
+
+
 def is_unique(arr):
     """!
     @brief Checks if all non-zero numbers in a 1D array are unique
