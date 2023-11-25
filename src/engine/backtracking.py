@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def possibility(puzzle, num, i, j):
     # getting indices of the top left square in relevant block
     block_i = 3 * (i // 3)  # row index
@@ -13,6 +16,9 @@ def possibility(puzzle, num, i, j):
 
 
 def backtracker(puzzle):
+    # check puzzle is numpy array with shape (9,9)
+    assert isinstance(puzzle, np.ndarray) and puzzle.shape == (9, 9)
+
     puzzle = puzzle.copy()
 
     def solve(puzzle):
