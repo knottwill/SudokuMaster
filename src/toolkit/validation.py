@@ -47,24 +47,22 @@ def validate_puzzle(puzzle):
         return "Puzzle is empty"
 
     # check each row, column, and 3x3 block
-    for i in range(9):
-        row = puzzle[i, :]
-        col = puzzle[:, i]
+    for n in range(9):
+        row = puzzle[n, :]  # n-th row
+        col = puzzle[:, n]  # n-th column
+
+        # indices of the top left square in n-th block
+        block_i = 3 * (n // 3)  # row index
+        block_j = 3 * (n % 3)  # column index
+
+        block = puzzle[block_i : block_i + 3, block_j : block_j + 3]
+        block = block.flatten()
 
         if not is_unique(row):
             return "Duplicate numbers in row(s)"
 
         if not is_unique(col):
             return "Duplicate numbers in column(s)"
-
-        # vertical index of top left cell in block
-        vert_i = 3 * (i // 3)
-
-        # horizontal index of top left cell in block
-        hor_i = 3 * (i % 3)
-
-        block = puzzle[vert_i : vert_i + 3, hor_i : hor_i + 3]
-        block = block.flatten()
 
         if not is_unique(block):
             return "Duplicate numbers in block(s)"

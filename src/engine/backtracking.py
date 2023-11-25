@@ -1,12 +1,12 @@
-def possibility(puzzle, num, y, x):
+def possibility(puzzle, num, i, j):
     # getting indices of the top left square in relevant block
-    block_y = 3 * (y // 3)
-    block_x = 3 * (x // 3)
+    block_i = 3 * (i // 3)  # row index
+    block_j = 3 * (j // 3)  # column index
 
     # variables to determine if num is in the row, column or block
-    in_row = num in puzzle[y]
-    in_col = num in puzzle[:, x]
-    in_block = num in puzzle[block_y : block_y + 3, block_x : block_x + 3]
+    in_row = num in puzzle[i]
+    in_col = num in puzzle[:, j]
+    in_block = num in puzzle[block_i : block_i + 3, block_j : block_j + 3]
 
     # return True if num is not in row, col or block
     return not in_row and not in_col and not in_block
