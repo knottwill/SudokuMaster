@@ -7,7 +7,7 @@ import numpy as np
 
 def test_backtracker():
     # test for valid puzzle
-    filepath = "tests/test_puzzles/valid.txt"
+    filepath = "tests/test_puzzles/easy/easy_01.txt"
     valid_puzzle = load_puzzle(filepath)
 
     solution = backtracker(valid_puzzle)  # solve puzzle
@@ -15,7 +15,7 @@ def test_backtracker():
     assert validate_solution(valid_puzzle, solution) == "Valid"
 
     # test for invalid puzzle
-    filepath = "tests/test_puzzles/unsolvable.txt"
+    filepath = "tests/test_puzzles/unsolvable/unsolvable_01.txt"
     unsolvable_puzzle = load_puzzle(filepath, check_validity=False)
     solution = backtracker(unsolvable_puzzle)
 
@@ -24,7 +24,7 @@ def test_backtracker():
 
 def test_multiple_solution_backtracking():
     # test for puzzle with exactly 1 solution
-    filepath = "tests/test_puzzles/valid.txt"
+    filepath = "tests/test_puzzles/easy/easy_01.txt"
     valid_puzzle = load_puzzle(filepath)
 
     solution = backtracker(valid_puzzle, num_solutions=1)
