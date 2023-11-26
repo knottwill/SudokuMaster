@@ -11,3 +11,5 @@ __pycache__/
 # file extensions to ignore
 *.ipynb
 *.csv
+
+.DS_Store
