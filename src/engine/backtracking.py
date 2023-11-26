@@ -25,7 +25,11 @@ def backtracker(puzzle):
         for i in range(9):  # iterate over rows
             for j in range(9):  # iterate over columns
                 if puzzle[i][j] == 0:  # find an empty cell
-                    for num in range(1, 10):  # try all numbers from 1 to 9
+                    # introduce randomness so backtracking is not deterministic
+                    numbers = np.arange(1, 10)
+                    np.random.shuffle(numbers)
+
+                    for num in numbers:  # try all numbers from 1 to 9
                         if possibility(puzzle, num, i, j):
                             puzzle[i][j] = num  # fill square if number is a possibility
 
