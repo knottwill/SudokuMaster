@@ -46,9 +46,9 @@ def test_multiple_solution_backtracking():
     assert isinstance(solutions, list) and len(solutions) == 3
 
     # assert solutions are all different
-    assert not all(solutions[0] == solutions[1])
-    assert not all(solutions[0] == solutions[2])
-    assert not all(solutions[1] == solutions[2])
+    assert not np.all(solutions[0] == solutions[1])
+    assert not np.all(solutions[0] == solutions[2])
+    assert not np.all(solutions[1] == solutions[2])
 
     # assert they are valid full boards
     assert all(validate_filled(solutions[i]) == "Valid" for i in range(3))

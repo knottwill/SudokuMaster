@@ -15,39 +15,48 @@ def possibility(puzzle, num, i, j):
     return not in_row and not in_col and not in_block
 
 
-def backtracker(puzzle):
+def backtracker(puzzle, num_solutions=1):
     # check puzzle is numpy array with shape (9,9)
     assert isinstance(puzzle, np.ndarray) and puzzle.shape == (9, 9)
 
     puzzle = puzzle.copy()
+    solutions = []
 
-    def solve(puzzle):
+    def solve(puzzle, solutions):
+        # break recursion when we have found enough solutions
+        if len(solutions) >= num_solutions:
+            return
+
         for i in range(9):  # iterate over rows
             for j in range(9):  # iterate over columns
                 if puzzle[i][j] == 0:  # find an empty cell
-                    # introduce randomness so backtracking is not deterministic
                     numbers = np.arange(1, 10)
-                    np.random.shuffle(numbers)
+                    np.random.shuffle(numbers)  # introduce randomness
 
-                    for num in numbers:  # try all numbers from 1 to 9
-                        if possibility(puzzle, num, i, j):
-                            puzzle[i][j] = num  # fill square if number is a possibility
+                    for n in numbers:
+                        if possibility(puzzle, n, i, j):
+                            puzzle[i][j] = n  # fill square if number is a possibility
+                            solve(puzzle, solutions)  # recursively fill puzzle
+                            puzzle[i][j] = 0  # backtrack
+                    return  # trigger backtracking if there are no possibilities
 
-                            if solve(
-                                puzzle
-                            ):  # recursively fill in the rest of the puzzle
-                                return True
+        # we only get here if puzzle is solved
+        solutions.append(puzzle.copy())
 
-                            puzzle[i][j] = 0  # backtrack if the puzzle was not solved
+    solve(puzzle, solutions)
 
-                    return False  # trigger backtracking if no number is possible
-
-        return True  # puzzle solved
-
-    # run backtracking
-    solved = solve(puzzle)
-
-    if not solved:
+    # if there are no solutions, the puzzle is unsolvable
+    if not solutions:
         return "UNSOLVABLE"
 
-    return puzzle
+    # if we want 1 solution, don't return as a list
+    if num_solutions == 1:
+        assert len(solutions) == 1
+        return solutions[0]
+
+    # assert all solutions are unique
+    flattened_tuple_solutions = map(lambda x: tuple(x.flatten()), solutions)
+    unique_solutions = set(flattened_tuple_solutions)
+    assert len(solutions) == len(unique_solutions), "Solutions found are not unique"
+
+    return solutions
