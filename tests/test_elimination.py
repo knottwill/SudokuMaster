@@ -4,6 +4,7 @@ from src.engine.elimination import (
     naked_singles_elimination,
     hidden_singles_elimination,
     obvious_pairs_elimination,
+    pointing_elimination,
 )
 
 
@@ -92,3 +93,34 @@ def test_obvious_pairs():
     # assert that 3 has been eliminated from the rest of the row, column or block
     assert {3, 4}.isdisjoint(rest_of_row), "Pair not eliminated from rest of row"
     assert {3, 4}.isdisjoint(rest_of_block), "Pair not eliminated from rest of block"
+
+
+def test_pointing():
+    # candidates for empty array (all numbers for all squares)
+    puzzle = np.zeros((9, 9), dtype=int)
+    candidates = init_candidates(puzzle)
+
+    # manually insert pointing triple along first row
+    # by discarding 3's from the other rows in the first block
+    for i in range(1, 3):
+        for j in range(3):
+            candidates[i, j].discard(3)
+
+    # insert pointing triple along last column
+    # by discarding 4's from other columns in bottom right block
+    for i in range(6, 9):
+        for j in range(6, 8):
+            candidates[i, j].discard(4)
+
+    # run elimination
+    candidates = pointing_elimination(candidates)
+
+    # union of all candidates in the rest of the row
+    rest_of_row = set().union(*candidates[0, 3:])
+
+    # union of all candidates in the rest of the row
+    rest_of_col = set().union(*candidates[:6, 8])
+
+    # assert that 3 has been eliminated from the rest of the row, column or block
+    assert {3}.isdisjoint(rest_of_row), "Number not eliminated from rest of row"
+    assert {4}.isdisjoint(rest_of_col), "Number not eliminated from rest of column"
