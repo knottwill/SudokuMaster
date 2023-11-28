@@ -5,6 +5,16 @@ from src.engine.basics import init_candidates, filler, singles_filler
 
 
 def test_init_candidates():
+    # test for empty puzzle
+    puzzle = np.zeros((9, 9), dtype=int)
+    candidates = init_candidates(puzzle)
+    for i in range(9):
+        for j in range(9):
+            assert candidates[i, j] == set(
+                [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            ), "All numbers must be candidates for all squares in an empty puzzle"
+
+    # test for an actual puzzle
     puzzle = np.array(
         [
             [0, 0, 0, 0, 0, 7, 0, 0, 0],
