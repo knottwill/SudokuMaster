@@ -14,6 +14,7 @@ def naked_singles_elimination(candidates):
 
     Reference: https://sudoku.com/sudoku-rules/obvious-singles/
     """
+    # take copy of candidates grid to avoid modifying the original
     candidates = copy.deepcopy(candidates)
 
     for i in range(9):
@@ -83,6 +84,7 @@ def hidden_singles_elimination(candidates):
 
     Reference: https://sudoku.com/sudoku-rules/hidden-singles/
     """
+    # take copy of candidates grid to avoid modifying the original
     candidates = copy.deepcopy(candidates)
 
     for i in range(9):
@@ -111,5 +113,58 @@ def hidden_singles_elimination(candidates):
                 unique_in_block = unique_in_group(block, current_candidates)
                 if unique_in_block:
                     candidates[i, j] = {unique_in_block}
+
+    return candidates
+
+
+def obvious_pairs_elimination(candidates):
+    """
+    @brief Eliminate candidates using the obvious pairs technique (AKA naked pairs)
+
+    @details The obvious pairs technique works as follows: If two squares in the
+    same row, column or block have exactly two candidates, and they are the same
+    two candidates for both squares, then these two candidates can be eliminated
+    from all of squares in that row, column or block.
+
+    Reference: https://sudoku.com/sudoku-rules/obvious-pairs/
+    """
+    # take copy of candidates grid to avoid modifying the original
+    candidates = copy.deepcopy(candidates)
+
+    # search every square in grid
+    for i in range(9):
+        for j in range(9):
+            # check if the current square has exactly two candidates.
+            if len(candidates[i, j]) == 2:
+                pair = candidates[i, j]
+
+                # check for identical pair in the same row.
+                for c in range(9):
+                    if c != j and candidates[i, c] == pair:
+                        # eliminate the pair from all other squares in the same row.
+                        for eliminate_c in range(9):
+                            if eliminate_c != j and eliminate_c != c:
+                                candidates[i, eliminate_c] -= pair
+
+                # check for identical pair in the same column.
+                for r in range(9):
+                    if r != i and candidates[r, j] == pair:
+                        # eliminate the pair from all other squares in the same column.
+                        for eliminate_r in range(9):
+                            if eliminate_r != i and eliminate_r != r:
+                                candidates[eliminate_r, j] -= pair
+
+                # check for identical pair in the same block.
+                block_i, block_j = 3 * (i // 3), 3 * (j // 3)
+                for r in range(block_i, block_i + 3):
+                    for c in range(block_j, block_j + 3):
+                        if (r != i or c != j) and candidates[r, c] == pair:
+                            # eliminate the pair from all other squares in the same block.
+                            for eliminate_r in range(block_i, block_i + 3):
+                                for eliminate_c in range(block_j, block_j + 3):
+                                    if (eliminate_r != i or eliminate_c != j) and (
+                                        eliminate_r != r or eliminate_c != c
+                                    ):
+                                        candidates[eliminate_r, eliminate_c] -= pair
 
     return candidates
