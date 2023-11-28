@@ -44,42 +44,48 @@ def init_candidates(puzzle):
     return candidates
 
 
+def filler(puzzle, candidates):
+    """!
+    @brief Fills puzzle using candidates grid
+
+    @details If candidates grid has only one candidate for an empty
+    square in the puzzle, we fill it in.
+    """
+    puzzle = puzzle.copy()
+    for i in range(9):
+        for j in range(9):
+            cands = list(candidates[i, j])
+            if puzzle[i, j] == 0:
+                # if there is just one cadidate, fill it in
+                if len(cands) == 1:
+                    puzzle[i, j] = cands[0]
+            else:
+                # if a puzzle square is filled, then the candidate grid
+                # must contain exactly that value
+                assert (
+                    len(cands) == 1 and cands[0] == puzzle[i, j]
+                ), "Candidate grid at ({i},{j}) is not consistent with puzzle"
+    return puzzle
+
+
 def singles_filler(puzzle):
     """!
     @brief Fills in 'Naked Singles'
+
+    This works via repeated application of init_candidates and filler
     """
     puzzle = puzzle.copy()
 
-    finished = False
-    while not finished:
-        restart_loop = False
-        for i, row in enumerate(puzzle):
-            for j, square in enumerate(row):
-                # skip square if it is not empty
-                if square != 0:
-                    continue
+    # initially old puzzle must be different from puzzle
+    # (except is puzzle is an empty board - then it doesn't matter)
+    puzzle_old = np.zeros((9, 9), dtype=int)
 
-                # find which numbers are available to the square
-                available_numbers = list(possibilities(puzzle, i, j))
-
-                # if there are no available numbers, the puzzle is not solvable
-                if len(available_numbers) == 0:
-                    return "UNSOLVABLE"
-
-                # if there is 1 available number, fill it in
-                if len(available_numbers) == 1:
-                    puzzle[i, j] = available_numbers[0]
-                    # print(f'filled [{i},{j}]')
-                    restart_loop = True
-                    break
-
-                # if we have reached the end of the puzzle, then there are no
-                # more naked singles, hence we are finished
-                if (i, j) == (8, 8):
-                    finished = True
-                    break
-
-        if restart_loop or finished:
-            break
+    # we get candidates from the puzzle
+    # then we fill the puzzle with the naked singles
+    # and continue looping until puzzle stops changing
+    while not np.array_equal(puzzle, puzzle_old):
+        puzzle_old = puzzle
+        candidates = init_candidates(puzzle)
+        puzzle = filler(puzzle, candidates)
 
     return puzzle
