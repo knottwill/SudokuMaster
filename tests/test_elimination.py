@@ -1,9 +1,13 @@
 import numpy as np
 from src.engine.basics import init_candidates
-from src.engine.elimination import naked_singles_elimination, hidden_singles_elimination
+from src.engine.elimination import (
+    naked_singles_elimination,
+    hidden_singles_elimination,
+    obvious_pairs_elimination,
+)
 
 
-def test_naked_singles_elimination():
+def test_naked_singles():
     # candidates for empty array (all numbers for all squares)
     puzzle = np.zeros((9, 9), dtype=int)
     candidates = init_candidates(puzzle)
@@ -30,7 +34,7 @@ def test_naked_singles_elimination():
     assert {3}.isdisjoint(rest_of_block), "Single not eliminated from rest of block"
 
 
-def test_hidden_singles_elimination():
+def test_hidden_singles():
     # candidates for empty array (all numbers for all squares)
     puzzle = np.zeros((9, 9), dtype=int)
     candidates = init_candidates(puzzle)
@@ -61,3 +65,30 @@ def test_hidden_singles_elimination():
     assert candidates[0, 0] == {3}, "Failed to find hidden single in column"
     assert candidates[2, 8] == {4}, "Failed to find hidden single in row"
     assert candidates[8, 8] == {6}, "Failed to find hidden single in block"
+
+
+def test_obvious_pairs():
+    # candidates for empty array (all numbers for all squares)
+    puzzle = np.zeros((9, 9), dtype=int)
+    candidates = init_candidates(puzzle)
+
+    # manually insert obvious pair (in first block & row)
+    candidates[0, 0] = {3, 4}
+    candidates[0, 1] = {3, 4}
+
+    # run elimination
+    candidates = obvious_pairs_elimination(candidates)
+
+    # union of all candidates in the rest of the row
+    rest_of_row = set().union(*candidates[0, 2:])
+
+    # union of all candidates in the rest of the block
+    rest_of_block = set().union(
+        *candidates[1:2, 0],  # two squares below (0,0)
+        candidates[0, 2],  # square to the right of (0,1)
+        *candidates[1:2, 1:2].flatten()  # 4 squares in rest of block
+    )
+
+    # assert that 3 has been eliminated from the rest of the row, column or block
+    assert {3, 4}.isdisjoint(rest_of_row), "Pair not eliminated from rest of row"
+    assert {3, 4}.isdisjoint(rest_of_block), "Pair not eliminated from rest of block"
