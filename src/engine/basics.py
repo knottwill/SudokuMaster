@@ -31,8 +31,8 @@ def init_candidates_grid(puzzle):
     @brief Initialises Candidates Grid from puzzle
 
     @details The candidates grid is a numpy array, where the
-    item at index (i,j) is the set of possible candidates for that
-    index of the puzzle
+    item at index (i,j) is the set of possible candidates for the
+    square at that index of the puzzle
     """
     candidates = np.empty((9, 9), dtype=object)
     for i in range(9):
