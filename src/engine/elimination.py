@@ -168,3 +168,54 @@ def obvious_pairs_elimination(candidates):
                                         candidates[eliminate_r, eliminate_c] -= pair
 
     return candidates
+
+
+def pointing_elimination(candidates):
+    """
+    @brief Eliminate candidates using the pointing pairs/triples technique
+
+    @details This function applies the pointing pairs/triples technique: It checks each
+    block to see if a candidate number appears only in a single row or column within that
+    block. If so, that candidate can be eliminated from the rest of the row or column outside
+    the block, since it must appear in the block.
+
+    Reference 1: https://sudoku.com/sudoku-rules/pointing-pairs/
+    Reference 2: https://sudoku.com/sudoku-rules/pointing-triples/
+    """
+    # take copy of candidates grid to avoid modifying the original
+    candidates = copy.deepcopy(candidates)
+
+    # loop over each block
+    for block_i in range(0, 9, 3):
+        for block_j in range(0, 9, 3):
+            # for each number, find which rows and columns they are in (within the block)
+            for num in range(1, 10):
+                rows_with_num = set()
+                cols_with_num = set()
+
+                # loop over squares within the block to find the rows and columns where the number appears.
+                for i in range(block_i, block_i + 3):
+                    for j in range(block_j, block_j + 3):
+                        if num in candidates[i, j]:
+                            rows_with_num.add(i)
+                            cols_with_num.add(j)
+
+                # apply pointing pairs/triples technique for rows
+                if len(rows_with_num) == 1:
+                    # row index containing pointing pairs/triples
+                    row = list(rows_with_num)[0]
+                    # discard num from the rest of the row
+                    for c in range(9):
+                        if c < block_j or c >= block_j + 3:
+                            candidates[row, c].discard(num)
+
+                # apply pointing pairs/triples technique for columns
+                if len(cols_with_num) == 1:
+                    # column index containing pointing pairs/triples
+                    col = list(cols_with_num)[0]
+                    # discard num from rest of column
+                    for r in range(9):
+                        if r < block_i or r >= block_i + 3:
+                            candidates[r, col].discard(num)
+
+    return candidates
