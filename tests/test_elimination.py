@@ -1,6 +1,6 @@
 import numpy as np
 from src.engine.basics import init_candidates
-from src.engine.elimination import naked_singles_elimination
+from src.engine.elimination import naked_singles_elimination, hidden_singles_elimination
 
 
 def test_naked_singles_elimination():
@@ -28,3 +28,36 @@ def test_naked_singles_elimination():
     assert {3}.isdisjoint(rest_of_row), "Single not eliminated from rest of row"
     assert {3}.isdisjoint(rest_of_col), "Single not eliminated from rest of column"
     assert {3}.isdisjoint(rest_of_block), "Single not eliminated from rest of block"
+
+
+def test_hidden_singles_elimination():
+    # candidates for empty array (all numbers for all squares)
+    puzzle = np.zeros((9, 9), dtype=int)
+    candidates = init_candidates(puzzle)
+
+    # manually insert hidden single to (0,0) by
+    # removing 3's from it's column
+    for i in range(1, 9):
+        candidates[i, 0].discard(3)
+
+    # manually insert hidden single to (2,8) by
+    # removing 4's from its row
+    for j in range(0, 8):
+        candidates[2, j].discard(4)
+
+    # insert hidden single to (8,8) by
+    # removing 6's from its block
+    idx = (8, 8)
+    block_i = 3 * (idx[0] // 3)
+    block_j = 3 * (idx[1] // 3)
+    for i in range(block_i, block_i + 3):
+        for j in range(block_j, block_j + 3):
+            if (i, j) != idx:
+                candidates[i, j].discard(6)
+
+    # perform hidden singles elimination
+    candidates = hidden_singles_elimination(candidates)
+
+    assert candidates[0, 0] == {3}, "Failed to find hidden single in column"
+    assert candidates[2, 8] == {4}, "Failed to find hidden single in row"
+    assert candidates[8, 8] == {6}, "Failed to find hidden single in block"
