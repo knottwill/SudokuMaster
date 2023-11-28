@@ -1,8 +1,8 @@
 import numpy as np
-from src.engine.basics import init_candidates_grid
+from src.engine.basics import init_candidates
 
 
-def test_init_candidates_grid():
+def test_init_candidates():
     puzzle = np.array(
         [
             [0, 0, 0, 0, 0, 7, 0, 0, 0],
@@ -17,7 +17,7 @@ def test_init_candidates_grid():
         ]
     )
 
-    candidates = init_candidates_grid(puzzle)
+    candidates = init_candidates(puzzle)
 
     # check a few squares
     assert candidates[0, 0] == {2, 3, 5, 6, 8, 9}

@@ -26,11 +26,11 @@ def possibilities(puzzle, i, j):
     return set(range(1, 10)) - taken_numbers
 
 
-def init_candidates_grid(puzzle):
+def init_candidates(puzzle):
     """!
-    @brief Initialises Candidates Grid from puzzle
+    @brief Initialises candidates grid from puzzle
 
-    @details The candidates grid is a numpy array, where the
+    @details The candidate grid is a numpy array, where the
     item at index (i,j) is the set of possible candidates for the
     square at that index of the puzzle
     """
@@ -38,9 +38,9 @@ def init_candidates_grid(puzzle):
     for i in range(9):
         for j in range(9):
             if puzzle[i, j] == 0:  # at empty square, calculate possibilities
-                candidates[(i, j)] = possibilities(puzzle, i, j)
+                candidates[i, j] = possibilities(puzzle, i, j)
             else:  # at a full square, the only possibility is that value
-                candidates[(i, j)] = {puzzle[i, j]}
+                candidates[i, j] = {puzzle[i, j]}
     return candidates
 
 

@@ -169,7 +169,7 @@ def print_puzzle(puzzle):
     print(puzzle_str)
 
 
-def print_candidates_grid(candidates):
+def print_candidates(candidates):
     """!
     @brief prints candidates grid in a visually intuitive way
     """
