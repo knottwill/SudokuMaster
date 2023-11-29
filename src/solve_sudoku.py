@@ -9,12 +9,17 @@ from engine.elimination import all_elimination
 from engine.backtracking import backtracker
 
 assert len(sys.argv) != 1, "No filepath provided"
-
-assert len(sys.argv) == 2, "Too many files provided"
+assert len(sys.argv) < 3, "Too many files provided"
+assert len(sys.argv) == 2
 
 filepath = sys.argv[1]
-orig_puzzle = load_puzzle(filepath)
-puzzle = orig_puzzle.copy()  # taking copy in case puzzle is modified
+puzzle = load_puzzle(filepath)
+
+# if puzzle fails to load, stop here
+if puzzle == 0:
+    sys.exit()
+
+orig_puzzle = puzzle.copy()  # taking copy in case puzzle is modified
 
 # timing
 t0 = time()
@@ -27,7 +32,7 @@ candidates = all_elimination(candidates)
 
 # check if puzzle is solvable
 if not solvable(candidates):
-    print("Puzzle is unsolvable")
+    print("Puzzle is Unsolvable")
     sys.exit()
 
 # fill in puzzle as much as possible
@@ -52,7 +57,7 @@ solution = backtracker(puzzle, candidates)
 t2 = time()
 
 if isinstance(solution, str) and solution == "UNSOLVABLE":
-    print("Puzzle is unsolvable")
+    print("Puzzle is Unsolvable")
     sys.exit()
 
 assert np.array_equal(puzzle, orig_puzzle), "Puzzle should not have been modified"
