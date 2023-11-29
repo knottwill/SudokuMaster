@@ -1,28 +1,17 @@
+import copy
 import numpy as np
+from src.engine.basics import init_candidates
+from src.engine.elimination import all_elimination
 
 
-def possibility(puzzle, num, i, j):
-    # getting indices of the top left square in relevant block
-    block_i = 3 * (i // 3)  # row index
-    block_j = 3 * (j // 3)  # column index
-
-    # variables to determine if num is in the row, column or block
-    in_row = num in puzzle[i]
-    in_col = num in puzzle[:, j]
-    in_block = num in puzzle[block_i : block_i + 3, block_j : block_j + 3]
-
-    # return True if num is not in row, col or block
-    return not in_row and not in_col and not in_block
-
-
-def backtracker(puzzle, num_solutions=1):
+def backtracker(puzzle, candidates=None, num_solutions=1):
     # check puzzle is numpy array with shape (9,9)
     assert isinstance(puzzle, np.ndarray) and puzzle.shape == (9, 9)
 
     puzzle = puzzle.copy()
     solutions = []
 
-    def solve(puzzle, solutions):
+    def solve(puzzle, solutions, candidates):
         # break recursion when we have found enough solutions
         if len(solutions) >= num_solutions:
             return
@@ -30,20 +19,33 @@ def backtracker(puzzle, num_solutions=1):
         for i in range(9):  # iterate over rows
             for j in range(9):  # iterate over columns
                 if puzzle[i][j] == 0:  # find an empty cell
-                    numbers = np.arange(1, 10)
+                    numbers = list(candidates[i, j])
                     np.random.shuffle(numbers)  # introduce randomness
 
                     for n in numbers:
-                        if possibility(puzzle, n, i, j):
-                            puzzle[i][j] = n  # fill square if number is a possibility
-                            solve(puzzle, solutions)  # recursively fill puzzle
-                            puzzle[i][j] = 0  # backtrack
+                        puzzle[i][j] = n  # fill square if number is a possibility
+
+                        # create new candidates grid according to new puzzle
+                        new_candidates = copy.deepcopy(candidates)
+                        new_candidates[i, j] = {n}
+                        new_candidates = all_elimination(new_candidates)
+
+                        solve(
+                            puzzle, solutions, new_candidates
+                        )  # recursively fill puzzle
+
+                        puzzle[i][j] = 0  # backtrack
+
                     return  # trigger backtracking if there are no possibilities
 
         # we only get here if puzzle is solved
         solutions.append(puzzle.copy())
 
-    solve(puzzle, solutions)
+    # initialise candidates grid if none is provided
+    if candidates is None:
+        candidates = init_candidates(puzzle)
+
+    solve(puzzle, solutions, candidates)
 
     # if there are no solutions, the puzzle is unsolvable
     if not solutions:
