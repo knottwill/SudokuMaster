@@ -1,10 +1,13 @@
 import numpy as np
-from src.engine.basics import init_candidates
+from src.toolkit.io import load_puzzle
+from src.toolkit.validation import validate_solution
+from src.engine.basics import init_candidates, filler
 from src.engine.elimination import (
     naked_singles_elimination,
     hidden_singles_elimination,
     obvious_pairs_elimination,
     pointing_elimination,
+    all_elimination,
 )
 
 
@@ -124,3 +127,25 @@ def test_pointing():
     # assert that 3 has been eliminated from the rest of the row, column or block
     assert {3}.isdisjoint(rest_of_row), "Number not eliminated from rest of row"
     assert {4}.isdisjoint(rest_of_col), "Number not eliminated from rest of column"
+
+
+def test_all_elimination():
+    # all 3 easy puzzles can be solved using only elimination techniques
+    path = "tests/test_puzzles/easy/easy_"
+
+    for file in ["01.txt", "02.txt", "03.txt"]:
+        filepath = path + file
+        puzzle = load_puzzle(filepath)
+        candidates = init_candidates(puzzle)
+
+        # run elimination
+        candidates = all_elimination(candidates)
+
+        # fill puzzle
+        solution = filler(puzzle, candidates)
+
+        # asserting that puzzle has not been modified
+        assert not np.array_equal(puzzle, solution)
+
+        # asserting solution has been found
+        assert validate_solution(puzzle, solution) == "Valid"

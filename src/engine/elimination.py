@@ -1,6 +1,7 @@
 """!
 @brief Module contains all functionality eliminating candidates from the candidates grid
 """
+import numpy as np
 import copy
 
 
@@ -14,6 +15,9 @@ def naked_singles_elimination(candidates):
 
     Reference: https://sudoku.com/sudoku-rules/obvious-singles/
     """
+    assert isinstance(candidates, np.ndarray) and candidates.dtype == object
+    assert candidates.shape == (9, 9)
+
     # take copy of candidates grid to avoid modifying the original
     candidates = copy.deepcopy(candidates)
 
@@ -84,6 +88,9 @@ def hidden_singles_elimination(candidates):
 
     Reference: https://sudoku.com/sudoku-rules/hidden-singles/
     """
+    assert isinstance(candidates, np.ndarray) and candidates.dtype == object
+    assert candidates.shape == (9, 9)
+
     # take copy of candidates grid to avoid modifying the original
     candidates = copy.deepcopy(candidates)
 
@@ -128,6 +135,9 @@ def obvious_pairs_elimination(candidates):
 
     Reference: https://sudoku.com/sudoku-rules/obvious-pairs/
     """
+    assert isinstance(candidates, np.ndarray) and candidates.dtype == object
+    assert candidates.shape == (9, 9)
+
     # take copy of candidates grid to avoid modifying the original
     candidates = copy.deepcopy(candidates)
 
@@ -182,6 +192,9 @@ def pointing_elimination(candidates):
     Reference 1: https://sudoku.com/sudoku-rules/pointing-pairs/
     Reference 2: https://sudoku.com/sudoku-rules/pointing-triples/
     """
+    assert isinstance(candidates, np.ndarray) and candidates.dtype == object
+    assert candidates.shape == (9, 9)
+
     # take copy of candidates grid to avoid modifying the original
     candidates = copy.deepcopy(candidates)
 
@@ -218,4 +231,26 @@ def pointing_elimination(candidates):
                         if r < block_i or r >= block_i + 3:
                             candidates[r, col].discard(num)
 
+    return candidates
+
+
+def all_elimination(candidates):
+    """!
+    @brief Repeated application of all elimination techniques
+
+    @details Applies techniques until candidates stop changing
+    """
+
+    assert isinstance(candidates, np.ndarray) and candidates.dtype == object
+    assert candidates.shape == (9, 9)
+
+    candidates = copy.deepcopy(candidates)
+    old_candidates = np.zeros((9, 9)).astype(int)
+
+    while not np.array_equal(candidates, old_candidates):
+        old_candidates = candidates
+        candidates = naked_singles_elimination(old_candidates)
+        candidates = hidden_singles_elimination(candidates)
+        candidates = obvious_pairs_elimination(candidates)
+        candidates = pointing_elimination(candidates)
     return candidates
