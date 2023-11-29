@@ -68,6 +68,19 @@ def filler(puzzle, candidates):
     return puzzle
 
 
+def solvable(candidates):
+    """!
+    @brief checks if candidates grid is solvable
+
+    (If candidates grid has empty set at any index, then it is not solvable)
+    """
+    for i in range(9):
+        for j in range(9):
+            if not candidates[i, j]:
+                return False
+    return True
+
+
 def singles_filler(puzzle):
     """!
     @brief Fills in 'Naked Singles'

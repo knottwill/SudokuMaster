@@ -1,7 +1,7 @@
 import numpy as np
 from src.toolkit.io import load_puzzle
 from src.toolkit.validation import validate_solution
-from src.engine.basics import init_candidates, filler
+from src.engine.basics import init_candidates, filler, solvable
 from src.engine.elimination import (
     naked_singles_elimination,
     hidden_singles_elimination,
@@ -149,3 +149,10 @@ def test_all_elimination():
 
         # asserting solution has been found
         assert validate_solution(puzzle, solution) == "Valid"
+
+    # test on unsolvable puzzle
+    filepath = "tests/test_puzzles/unsolvable/unsolvable_01.txt"
+    puzzle = load_puzzle(filepath)
+    candidates = init_candidates(puzzle)
+    candidates = all_elimination(candidates)
+    assert not solvable(candidates)
