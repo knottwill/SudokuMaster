@@ -46,14 +46,12 @@ post_elimination = time()
 message = validate_solution(puzzle, filled_puzzle)
 if message == "Valid":
     print(f"Solution Found in {post_elimination - start: .3}s\n")
+    print("Using candidate elimination alone\n")
     print_puzzle(filled_puzzle)
     sys.exit()  # stop running if solution found
 assert (
     message == "Solution is Unfilled"
 ), f"Puzzle filled by candidate elimination is invalid: {message}"
-
-# if we get here, solution has not been found by candidate elimination alone
-print("Solution not found using candidate elimination alone, brute force needed\n")
 
 # ------------------------
 # Brute force (backtracking)
@@ -77,4 +75,5 @@ assert message == "Valid", f"Solution incorrect: {message}"
 
 # print solution
 print(f"Solution Found in {post_backtracking - start: .3}s\n")
+print("Using candidate elimination and backtracking\n")
 print_puzzle(solution)
