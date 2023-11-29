@@ -13,3 +13,7 @@ __pycache__/
 *.csv
 
 .DS_Store
+
+# ignore profiling files
+*.lprof
+profiling/
