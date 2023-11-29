@@ -16,13 +16,16 @@ filepath = sys.argv[1]
 puzzle = load_puzzle(filepath)
 
 # if puzzle fails to load, stop here
-if puzzle == 0:
+# we don't need to print anything, as load_puzzle will do this
+if puzzle is None:
     sys.exit()
 
 orig_puzzle = puzzle.copy()  # taking copy in case puzzle is modified
+start = time()  # timing
 
-# timing
-t0 = time()
+# --------------------
+# Candidate Elimination
+# --------------------
 
 # initialise candidates grid
 candidates = init_candidates(puzzle)
@@ -37,35 +40,41 @@ if not solvable(candidates):
 
 # fill in puzzle as much as possible
 filled_puzzle = filler(puzzle, candidates)
-t1 = time()
+post_elimination = time()
 
 # check if solution has been already found
 message = validate_solution(puzzle, filled_puzzle)
 if message == "Valid":
-    print(f"Solution Found in {t1 - t0: .3}s\n")
+    print(f"Solution Found in {post_elimination - start: .3}s\n")
     print_puzzle(filled_puzzle)
     sys.exit()  # stop running if solution found
+assert (
+    message == "Solution is Unfilled"
+), f"Puzzle filled by candidate elimination is invalid: {message}"
 
-# if we get here, solution has not been found
-# hence the filled_puzzle should contain 0's
-assert message == "Solution is Unfilled"
-
+# if we get here, solution has not been found by candidate elimination alone
 print("Solution not found using candidate elimination alone, brute force needed\n")
+
+# ------------------------
+# Brute force (backtracking)
+# ------------------------
 
 # perform backtracking
 solution = backtracker(puzzle, candidates)
-t2 = time()
+post_backtracking = time()
 
+# check if puzzle is unsolvable
 if isinstance(solution, str) and solution == "UNSOLVABLE":
     print("Puzzle is Unsolvable")
     sys.exit()
 
-assert np.array_equal(puzzle, orig_puzzle), "Puzzle should not have been modified"
+# assert original puzzle has not been modified
+assert np.array_equal(puzzle, orig_puzzle), "Original puzzle has been modified"
 
 # if we get here, solution must have been found
 message = validate_solution(puzzle, solution)
 assert message == "Valid", f"Solution incorrect: {message}"
 
 # print solution
-print(f"Solution Found in {t2 - t0: .3}s\n")
+print(f"Solution Found in {post_backtracking - start: .3}s\n")
 print_puzzle(solution)

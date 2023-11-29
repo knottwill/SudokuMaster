@@ -99,7 +99,7 @@ def load_puzzle(filepath, check_validity=True):
     else:
         # output is error message
         print(f"File contains INVALID FORMAT: {output}")
-        return 0
+        return None
 
     if check_validity:
         # validate that puzzle conforms to sudoku rules
@@ -107,7 +107,7 @@ def load_puzzle(filepath, check_validity=True):
         message = validate_puzzle(puzzle)
         if message != "Valid":
             print(f"Puzzle does not comply to sudoku rules: {message}")
-            return 0
+            return None
 
     return puzzle
 

@@ -88,11 +88,11 @@ def test_load_puzzle():
 
     # puzzle with invalid format
     loaded_item = load_puzzle("tests/test_puzzles/invalid/invalid_form.txt")
-    assert loaded_item == 0
+    assert loaded_item is None
 
     # invalid puzzle (does not conform to sudoku rules)
     loaded_item = load_puzzle("tests/test_puzzles/invalid/invalid_puzzle.txt")
-    assert loaded_item == 0
+    assert loaded_item is None
 
 
 def test_save_puzzle():
