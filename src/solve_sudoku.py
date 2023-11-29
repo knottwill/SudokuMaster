@@ -1,4 +1,6 @@
 import sys
+import numpy as np
+from time import time
 
 from toolkit.io import load_puzzle, print_puzzle
 from toolkit.validation import validate_solution
@@ -12,9 +14,10 @@ assert len(sys.argv) == 2, "Too many files provided"
 
 filepath = sys.argv[1]
 orig_puzzle = load_puzzle(filepath)
+puzzle = orig_puzzle.copy()  # taking copy in case puzzle is modified
 
-# taking copy in case puzzle is modified
-puzzle = orig_puzzle.copy()
+# timing
+t0 = time()
 
 # initialise candidates grid
 candidates = init_candidates(puzzle)
@@ -29,11 +32,12 @@ if not solvable(candidates):
 
 # fill in puzzle as much as possible
 filled_puzzle = filler(puzzle, candidates)
+t1 = time()
 
 # check if solution has been already found
 message = validate_solution(puzzle, filled_puzzle)
 if message == "Valid":
-    print("Solution Found:\n")
+    print(f"Solution Found in {t1 - t0: .3}s\n")
     print_puzzle(filled_puzzle)
     sys.exit()  # stop running if solution found
 
@@ -45,15 +49,18 @@ print("Solution not found using candidate elimination alone, brute force needed\
 
 # perform backtracking
 solution = backtracker(puzzle, candidates)
+t2 = time()
 
 if isinstance(solution, str) and solution == "UNSOLVABLE":
     print("Puzzle is unsolvable")
     sys.exit()
+
+assert np.array_equal(puzzle, orig_puzzle), "Puzzle should not have been modified"
 
 # if we get here, solution must have been found
 message = validate_solution(puzzle, solution)
 assert message == "Valid", f"Solution incorrect: {message}"
 
 # print solution
-print("Solution Found:\n")
+print(f"Solution Found in {t2 - t0: .3}s\n")
 print_puzzle(solution)
