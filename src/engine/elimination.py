@@ -5,6 +5,7 @@ import numpy as np
 import copy
 
 
+# @profile
 def naked_singles_elimination(candidates):
     """
     @brief Eliminate candidates using the naked singles technique.
@@ -19,7 +20,7 @@ def naked_singles_elimination(candidates):
     assert candidates.shape == (9, 9)
 
     # take copy of candidates grid to avoid modifying the original
-    candidates = copy.deepcopy(candidates)
+    # candidates = copy.deepcopy(candidates)
 
     for i in range(9):
         for j in range(9):
@@ -48,6 +49,7 @@ def naked_singles_elimination(candidates):
     return candidates
 
 
+# @profile
 def unique_in_group(group, current_candidates):
     """!
     @brief Check if numbers in current_candidates are unique in group
@@ -77,6 +79,7 @@ def unique_in_group(group, current_candidates):
     return None
 
 
+# @profile
 def hidden_singles_elimination(candidates):
     """!
     @brief Eliminate candidates using the hidden singles technique.
@@ -92,7 +95,7 @@ def hidden_singles_elimination(candidates):
     assert candidates.shape == (9, 9)
 
     # take copy of candidates grid to avoid modifying the original
-    candidates = copy.deepcopy(candidates)
+    # candidates = copy.deepcopy(candidates)
 
     for i in range(9):
         for j in range(9):
@@ -124,6 +127,7 @@ def hidden_singles_elimination(candidates):
     return candidates
 
 
+# @profile
 def obvious_pairs_elimination(candidates):
     """
     @brief Eliminate candidates using the obvious pairs technique (AKA naked pairs)
@@ -139,7 +143,7 @@ def obvious_pairs_elimination(candidates):
     assert candidates.shape == (9, 9)
 
     # take copy of candidates grid to avoid modifying the original
-    candidates = copy.deepcopy(candidates)
+    # candidates = copy.deepcopy(candidates)
 
     # search every square in grid
     for i in range(9):
@@ -180,6 +184,7 @@ def obvious_pairs_elimination(candidates):
     return candidates
 
 
+# @profile
 def pointing_elimination(candidates):
     """
     @brief Eliminate candidates using the pointing pairs/triples technique
@@ -196,7 +201,7 @@ def pointing_elimination(candidates):
     assert candidates.shape == (9, 9)
 
     # take copy of candidates grid to avoid modifying the original
-    candidates = copy.deepcopy(candidates)
+    # candidates = copy.deepcopy(candidates)
 
     # loop over each block
     for block_i in range(0, 9, 3):
@@ -234,6 +239,7 @@ def pointing_elimination(candidates):
     return candidates
 
 
+# @profile
 def all_elimination(candidates):
     """!
     @brief Repeated application of all elimination techniques
@@ -248,8 +254,8 @@ def all_elimination(candidates):
     old_candidates = np.zeros((9, 9)).astype(int)
 
     while not np.array_equal(candidates, old_candidates):
-        old_candidates = candidates
-        candidates = naked_singles_elimination(old_candidates)
+        old_candidates = copy.deepcopy(candidates)
+        candidates = naked_singles_elimination(candidates)
         candidates = hidden_singles_elimination(candidates)
         candidates = obvious_pairs_elimination(candidates)
         candidates = pointing_elimination(candidates)

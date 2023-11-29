@@ -4,6 +4,7 @@ from .basics import init_candidates
 from .elimination import all_elimination
 
 
+# @profile
 def solve(puzzle, solutions, candidates, num_solutions=1):
     # break recursion when we have found enough solutions
     if len(solutions) >= num_solutions:
@@ -35,6 +36,7 @@ def solve(puzzle, solutions, candidates, num_solutions=1):
     solutions.append(puzzle.copy())
 
 
+# @profile
 def backtracker(puzzle, candidates=None, num_solutions=1):
     # check puzzle is numpy array with shape (9,9)
     assert isinstance(puzzle, np.ndarray) and puzzle.shape == (9, 9)
