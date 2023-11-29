@@ -1,7 +1,7 @@
 import copy
 import numpy as np
-from src.engine.basics import init_candidates
-from src.engine.elimination import all_elimination
+from .basics import init_candidates
+from .elimination import all_elimination
 
 
 def backtracker(puzzle, candidates=None, num_solutions=1):

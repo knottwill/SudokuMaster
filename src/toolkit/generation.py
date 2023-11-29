@@ -1,6 +1,6 @@
-from src.toolkit.validation import validate_solution, validate_puzzle
-from src.engine.backtracking import backtracker
-from src.engine.basics import singles_filler
+from .validation import validate_solution, validate_puzzle
+from ..engine.backtracking import backtracker
+from ..engine.basics import singles_filler
 import numpy as np
 import random
 

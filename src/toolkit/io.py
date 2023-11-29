@@ -6,7 +6,7 @@
 @author Created by William Knottenbelt
 """
 import numpy as np
-from src.toolkit.validation import validate_puzzle
+from .validation import validate_puzzle
 
 
 def parse_sudoku_string(sudoku_str):
