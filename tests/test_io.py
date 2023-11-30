@@ -113,7 +113,8 @@ def test_save_puzzle():
         saved_file.read() == valid_file.read()
 
     # test for invalid puzzle
-    invalid_puzzle = np.zeros((9, 9))
+    filepath = "tests/test_puzzles/invalid/invalid_puzzle.txt"
+    invalid_puzzle = load_puzzle(filepath, check_validity=False)
     valid_savepath = "puzzles/never_exist.txt"
     with pytest.raises(AssertionError):
         save_puzzle(valid_savepath, invalid_puzzle)
