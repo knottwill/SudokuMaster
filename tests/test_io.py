@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from src.toolkit.io import (
     load_puzzle,
     save_puzzle,
@@ -105,22 +106,25 @@ def test_save_puzzle():
     valid_puzzle = load_puzzle(real_path)
 
     # test for saving valid puzzle
-    savepath = "puzzles/savetest.txt"
+    savepath = "tests/test_puzzles/savetest.txt"
     save_puzzle(savepath, valid_puzzle)
 
     # read the file and check if the content is correct
     with open(savepath, "r") as saved_file, open(real_path, "r") as valid_file:
         saved_file.read() == valid_file.read()
 
+    # delete saved puzzle
+    os.remove(savepath)
+
     # test for invalid puzzle
     filepath = "tests/test_puzzles/invalid/invalid_puzzle.txt"
     invalid_puzzle = load_puzzle(filepath, check_validity=False)
-    valid_savepath = "puzzles/never_exist.txt"
+    valid_savepath = "tests/test_puzzles/never_exist.txt"
     with pytest.raises(AssertionError):
         save_puzzle(valid_savepath, invalid_puzzle)
 
     # test for invalid extension
-    invalid_savepath = "puzzles/never_exist.py"
+    invalid_savepath = "tests/test_puzzles/never_exist.py"
     with pytest.raises(AssertionError):
         save_puzzle(invalid_savepath, valid_puzzle)
 

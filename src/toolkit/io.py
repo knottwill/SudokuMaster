@@ -1,11 +1,13 @@
 """!@file io.py
-@brief Input/Output: Module containing tools loading, saving and printing puzzles
+@brief Module for Input/Output of Sudoku puzzles.
 
-@details This module contains tools for...
+@details This module contains tools for loading, saving, converting and
+printing puzzles. It also contains a function to print candidate grids.
 
 @author Created by William Knottenbelt
 """
 import numpy as np
+import os
 from .validation import validate_puzzle
 
 
@@ -143,6 +145,11 @@ def save_puzzle(filepath, puzzle, check_validity=True):
     """
     # check that we are saving to a text file
     assert filepath.endswith(".txt"), "Filepath must end with .txt"
+
+    # create the directory if it does not exist
+    directory = os.path.dirname(filepath)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
     # get puzzle as string
     puzzle_str = puzzle_to_string(puzzle, check_validity)
