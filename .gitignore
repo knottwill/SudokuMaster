@@ -17,3 +17,10 @@ __pycache__/
 # ignore profiling files
 *.lprof
 profiling/
+
+# ignore doxygen generated documentation
+html/
+latex/
+
+# ignore solutions output from solve_sudoku.py
+solutions/
