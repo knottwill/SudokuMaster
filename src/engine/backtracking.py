@@ -10,7 +10,6 @@ from .basics import init_candidates
 from .elimination import all_elimination
 
 
-# @profile
 def solve(puzzle, solutions, candidates, num_solutions=1):
     """!
     @brief Recursive function to solve a Sudoku puzzle using backtracking.
@@ -60,7 +59,6 @@ def solve(puzzle, solutions, candidates, num_solutions=1):
     solutions.append(puzzle.copy())
 
 
-# @profile
 def backtracker(puzzle, candidates=None, num_solutions=1):
     """!
     @brief Function to run the backtracking process for solving Sudoku puzzles.

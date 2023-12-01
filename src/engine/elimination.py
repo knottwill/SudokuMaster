@@ -1,26 +1,27 @@
-"""!
-@brief Module contains all functionality eliminating candidates from the candidates grid
+"""! @file elimination.py
+@brief Module contains all tools for eliminating candidates from the candidates grid
 """
 import numpy as np
 import copy
 
 
-# @profile
 def naked_singles_elimination(candidates):
     """
     @brief Eliminate candidates using the naked singles technique.
 
-    @details The naked singles technique works by finding squares that
+    @details Naked Singles technique: Function finds squares that
     only have a single candidate, then that candidate can be eliminated
     from all other squares in the same row, column and block
 
     Reference: https://sudoku.com/sudoku-rules/obvious-singles/
+
+    @param candidates The candidates grid as a numpy array.
+
+    @return Updated candidates grid
     """
+    # check candidates grid is of the correct type and shape
     assert isinstance(candidates, np.ndarray) and candidates.dtype == object
     assert candidates.shape == (9, 9)
-
-    # take copy of candidates grid to avoid modifying the original
-    # candidates = copy.deepcopy(candidates)
 
     for i in range(9):
         for j in range(9):
@@ -49,16 +50,16 @@ def naked_singles_elimination(candidates):
     return candidates
 
 
-# @profile
 def unique_in_group(group, current_candidates):
     """!
-    @brief Check if numbers in current_candidates are unique in group
+    @brief Check if any number in a set of numbers are unique in a group
 
-    @details This function checks if any of the candidates in
-    current_candidates only appear once in group. If so, we
-    return the candidate. If not, we return None
+    @details This function checks if any of the numbers in current_candidates
+    appear exactly once in the group (which is typically a subset of the
+    candidate grid, eg. One row). If so, we return the number that is unique.
+    If not, we return None.
 
-    @return candidate (if unique) or None (if not)
+    @return Unique candidate or None (if no unique candidate is found).
     """
     # count how many times each candidate in current_candidates
     # appears in the group
@@ -79,42 +80,46 @@ def unique_in_group(group, current_candidates):
     return None
 
 
-# @profile
 def hidden_singles_elimination(candidates):
     """!
     @brief Eliminate candidates using the hidden singles technique.
 
-    @details The hidden singles technique is as follows: If a particular
-    number is a candidate of only one square in an entire row, column
-    or block, even though that square has other candidates, the square
-    must be filled with that number.
+    @details Hidden Singles technique: If a particular number is a
+    candidate of only one square in an entire row, column or block,
+    even though the square has other candidates, then that number
+    becomes the only candidate of that square.
 
     Reference: https://sudoku.com/sudoku-rules/hidden-singles/
+
+    @param candidates The candidates grid as a numpy array.
+
+    @return Updated candidates grid
     """
+    # check candidates grid is of the correct type and shape
     assert isinstance(candidates, np.ndarray) and candidates.dtype == object
     assert candidates.shape == (9, 9)
-
-    # take copy of candidates grid to avoid modifying the original
-    # candidates = copy.deepcopy(candidates)
 
     for i in range(9):
         for j in range(9):
             current_candidates = candidates[i, j]
+
             # we only check if squares with multiple candidates contain hidden singles
+            # (if it is the sole candidate then it isn't very 'hidden')
             if len(current_candidates) > 1:
-                # check row
+                # check if any current candidates are unique in row
+                # if we find a candidate is unique, it becomes the sole candidate
                 unique_in_row = unique_in_group(candidates[i, :], current_candidates)
                 if unique_in_row:
                     candidates[i, j] = {unique_in_row}
                     continue
 
-                # check column
+                # same for column
                 unique_in_col = unique_in_group(candidates[:, j], current_candidates)
                 if unique_in_col:
                     candidates[i, j] = {unique_in_col}
                     continue
 
-                # check block
+                # same for block
                 block_i = 3 * (i // 3)
                 block_j = 3 * (j // 3)
                 block = candidates[
@@ -127,23 +132,24 @@ def hidden_singles_elimination(candidates):
     return candidates
 
 
-# @profile
 def obvious_pairs_elimination(candidates):
     """
     @brief Eliminate candidates using the obvious pairs technique (AKA naked pairs)
 
-    @details The obvious pairs technique works as follows: If two squares in the
-    same row, column or block have exactly two candidates, and they are the same
-    two candidates for both squares, then these two candidates can be eliminated
-    from all of squares in that row, column or block.
+    @details Obvious Pairs technique: If two squares in the same row, column or block
+    have exactly two candidates, and they are the same two candidates for both squares,
+    then those two candidates are be eliminated from all of squares in that row,
+    column or block.
 
     Reference: https://sudoku.com/sudoku-rules/obvious-pairs/
+
+    @param candidates The candidates grid as a numpy array.
+
+    @return Updated candidates grid
     """
+    # check candidates grid is of the correct type and shape
     assert isinstance(candidates, np.ndarray) and candidates.dtype == object
     assert candidates.shape == (9, 9)
-
-    # take copy of candidates grid to avoid modifying the original
-    # candidates = copy.deepcopy(candidates)
 
     # search every square in grid
     for i in range(9):
@@ -184,19 +190,23 @@ def obvious_pairs_elimination(candidates):
     return candidates
 
 
-# @profile
 def pointing_elimination(candidates):
     """
     @brief Eliminate candidates using the pointing pairs/triples technique
 
-    @details This function applies the pointing pairs/triples technique: It checks each
-    block to see if a candidate number appears only in a single row or column within that
-    block. If so, that candidate can be eliminated from the rest of the row or column outside
-    the block, since it must appear in the block.
+    @details Pointing Pairs/Triples technique: Checks each block to see if a
+    candidate number appears only in a single row or column within that block.
+    If so, that candidate can be eliminated from the rest of the row or column
+    outside of the block, since it must appear in the block.
 
     Reference 1: https://sudoku.com/sudoku-rules/pointing-pairs/
     Reference 2: https://sudoku.com/sudoku-rules/pointing-triples/
+
+    @param candidates The candidates grid as a numpy array.
+
+    @return Updated candidates grid
     """
+    # check candidates grid is of the correct type and shape
     assert isinstance(candidates, np.ndarray) and candidates.dtype == object
     assert candidates.shape == (9, 9)
 
@@ -239,24 +249,32 @@ def pointing_elimination(candidates):
     return candidates
 
 
-# @profile
 def all_elimination(candidates):
     """!
-    @brief Repeated application of all elimination techniques
+    @brief Repeated application of all four elimination techniques
 
-    @details Applies techniques until candidates stop changing
+    @details Applies the following candidate elimination techniques sequentially to the
+    candidates grid in a loop until no more candidates can be eliminated using these
+    techniques: 'Naked Singles', 'Hidden Singles', 'Obvious Pairs', 'Pointing Pairs/Triples'
+
+    @param candidates The candidates grid as a numpy array.
+
+    @return Updated candidates grid
     """
-
+    # check candidates grid is of the correct type and shape
     assert isinstance(candidates, np.ndarray) and candidates.dtype == object
     assert candidates.shape == (9, 9)
 
+    # Take copy of candidates grid to avoid mutating the original
     candidates = copy.deepcopy(candidates)
-    old_candidates = np.zeros((9, 9)).astype(int)
 
+    # Apply all elimination techniques until candidates grid stops changing
+    old_candidates = None
     while not np.array_equal(candidates, old_candidates):
         old_candidates = copy.deepcopy(candidates)
         candidates = naked_singles_elimination(candidates)
         candidates = hidden_singles_elimination(candidates)
         candidates = obvious_pairs_elimination(candidates)
         candidates = pointing_elimination(candidates)
+
     return candidates
