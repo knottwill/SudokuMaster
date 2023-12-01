@@ -1,13 +1,32 @@
+"""!@file basics.py
+@brief Module for basic Sudoku solving utilities.
+
+@details This module provides various functions to assist in solving Sudoku puzzles.
+These functions include calculating the possible numbers for a specific square, initializing
+candidate grids based on the puzzle, filling the puzzle using these candidates, and
+checking if a puzzle is solvable. It also implements a method to fill in the 'Naked Singles'
+of a Sudoku puzzle.
+
+@author Created by W.D Knottenbelt
+"""
+
 import numpy as np
 
 
 def possibilities(puzzle, i, j):
     """!
-    @brief Get possibile numbers for square (i,j)
+    @brief Get possible numbers for square in a Sudoku puzzle.
 
-    @details This is based only on standard sudoku rules: no
-    duplicates in columns, rows or blocks. (It does not perform any
-    advanced candidate elimination techniques)
+    @details Determines possible numbers for the square at index (i, j) in the Sudoku
+    puzzle based on standard Sudoku rules: no duplicates in any row, column, or 3x3 block.
+    Does not use advanced candidate elimination techniques.
+
+    @param puzzle A 9x9 numpy array representing the puzzle.
+    @param i The row index of the square.
+    @param j The column index of the square.
+
+    @return The set of possible numbers that can be placed in the square without
+    causing immedate conflicts.
     """
     row = puzzle[i]
     col = puzzle[:, j]
@@ -28,11 +47,15 @@ def possibilities(puzzle, i, j):
 
 def init_candidates(puzzle):
     """!
-    @brief Initialises candidates grid from puzzle
+    @brief Initializes a candidates grid based on the current state of the Sudoku puzzle.
 
-    @details The candidate grid is a numpy array, where the
-    item at index (i,j) is the set of possible candidates for the
-    square at that index of the puzzle
+    @details Creates a 9x9 numpy array where the value at index (i, j) is the
+    set of possible numbers that can occupy the square at index (i, j) in the
+    puzzle, according to the "possibilities" function.
+
+    @param puzzle A 9x9 numpy array representing the puzzle.
+
+    @return A 9x9 numpy array representing the candidate grid.
     """
     candidates = np.empty((9, 9), dtype=object)
     for i in range(9):
@@ -46,10 +69,15 @@ def init_candidates(puzzle):
 
 def filler(puzzle, candidates):
     """!
-    @brief Fills puzzle using candidates grid
+    @brief Fills the puzzle using the provided candidates grid.
 
-    @details If candidates grid has only one candidate for an empty
-    square in the puzzle, we fill it in.
+    @details Fills squares in the puzzle which have only one possible
+    candidate according to the candidate grid ("candidates").
+
+    @param puzzle A 9x9 numpy array representing the puzzle.
+    @param candidates The candidate grid as a numpy array.
+
+    @return The updated Sudoku puzzle as a numpy array.
     """
     puzzle = puzzle.copy()
     for i in range(9):
@@ -70,23 +98,45 @@ def filler(puzzle, candidates):
 
 def solvable(candidates):
     """!
-    @brief checks if candidates grid is solvable
+    @brief Checks if the current candidates grid could correspond to a solvable puzzle.
 
-    (If candidates grid has empty set at any index, then it is not solvable)
+    @details Checks whether any value in the candidates grid is an empty set.
+    If so, there are no candidates for the corresponding square, hence the
+    corresponding puzzle is unsolvable.
+    Note: when this function returns True, it does not guarantee that the corresponding
+    puzzle is solvable. It just means that currently every square has at least one
+    candidate, but this does not necessarily make the puzzle solvable.
+
+    @param candidates The candidate grid as a numpy array.
+
+    @return True if the puzzle is solvable, False otherwise.
     """
     for i in range(9):
         for j in range(9):
+            # if any square has no candidates, the puzzle is unsolvable
             if not candidates[i, j]:
                 return False
+    # returns true if all squares have one or more candidates
+    # (does not necessarily mean the puzzle is actually solvable)
     return True
 
 
 def singles_filler(puzzle):
     """!
-    @brief Fills in 'Naked Singles'
+    @brief Fills in 'Naked Singles' (AKA Obvious Singles) in the puzzle.
 
-    This works via repeated application of init_candidates and filler
+    @details A 'Naked Single' is a square in the puzzle that has only one candidate.
+    The function works by initializing the candidate grid from the current state of
+    the puzzle, then filling the puzzle using the grid, and repeating this process
+    until the puzzle stops changing.
+
+    Reference: https://sudoku.com/sudoku-rules/obvious-singles/
+
+    @param puzzle A 9x9 numpy array representing the puzzle.
+
+    @return The updated puzzle as a numpy array
     """
+
     puzzle = puzzle.copy()
 
     # initially old puzzle must be different from puzzle
