@@ -1,12 +1,20 @@
 """! @file elimination.py
-@brief Module contains all tools for eliminating candidates from the candidates grid
+@brief Module contains all tools for eliminating candidates of squares in Sudoku puzzles
+
+@details This module contains four candidate elimination techniques: 'Naked Singles',
+'Hidden Singles', 'Obvious Pairs', 'Pointing Pairs/Triples'. Each technique takes
+a candidates grid as input, and returns the modified grid (after eliminating
+candidates). The module also contains a function to combine all four techniques
+and loop them until no more candidates can be eliminated.
+
+@author Created by W.D Knottenbelt
 """
 import numpy as np
 import copy
 
 
 def naked_singles_elimination(candidates):
-    """
+    """!
     @brief Eliminate candidates using the naked singles technique.
 
     @details Naked Singles technique: Function finds squares that
@@ -133,7 +141,7 @@ def hidden_singles_elimination(candidates):
 
 
 def obvious_pairs_elimination(candidates):
-    """
+    """!
     @brief Eliminate candidates using the obvious pairs technique (AKA naked pairs)
 
     @details Obvious Pairs technique: If two squares in the same row, column or block
@@ -191,7 +199,7 @@ def obvious_pairs_elimination(candidates):
 
 
 def pointing_elimination(candidates):
-    """
+    """!
     @brief Eliminate candidates using the pointing pairs/triples technique
 
     @details Pointing Pairs/Triples technique: Checks each block to see if a
