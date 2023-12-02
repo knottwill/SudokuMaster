@@ -21,9 +21,9 @@ def possibilities(puzzle, i, j):
     puzzle based on standard Sudoku rules: no duplicates in any row, column, or 3x3 block.
     Does not use advanced candidate elimination techniques.
 
-    @param puzzle A 9x9 numpy array representing the puzzle.
-    @param i The row index of the square.
-    @param j The column index of the square.
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the puzzle.
+    @param i (int) The row index of the square.
+    @param j (int) The column index of the square.
 
     @return The set of possible numbers that can be placed in the square without
     causing immedate conflicts.
@@ -53,7 +53,7 @@ def init_candidates(puzzle):
     set of possible numbers that can occupy the square at index (i, j) in the
     puzzle, according to the "possibilities" function.
 
-    @param puzzle A 9x9 numpy array representing the puzzle.
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the puzzle.
 
     @return A 9x9 numpy array representing the candidate grid.
     """
@@ -74,8 +74,8 @@ def filler(puzzle, candidates):
     @details Fills squares in the puzzle which have only one possible
     candidate according to the candidate grid ("candidates").
 
-    @param puzzle A 9x9 numpy array representing the puzzle.
-    @param candidates The candidate grid as a numpy array.
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the puzzle.
+    @param candidates (numpy.ndarray) The candidate grid as a numpy array.
 
     @return The updated Sudoku puzzle as a numpy array.
     """
@@ -107,7 +107,7 @@ def solvable(candidates):
     puzzle is solvable. It just means that currently every square has at least one
     candidate, but this does not necessarily make the puzzle solvable.
 
-    @param candidates The candidate grid as a numpy array.
+    @param candidates (numpy.ndarray) The candidate grid as a numpy array.
 
     @return True if the puzzle is solvable, False otherwise.
     """
@@ -132,7 +132,7 @@ def singles_filler(puzzle):
 
     Reference: https://sudoku.com/sudoku-rules/obvious-singles/
 
-    @param puzzle A 9x9 numpy array representing the puzzle.
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the puzzle.
 
     @return The updated puzzle as a numpy array
     """

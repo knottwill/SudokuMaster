@@ -22,10 +22,10 @@ def solve(puzzle, solutions, candidates, num_solutions=1):
     to find additional solutions. When the desired number of solutions is found, the condition is
     triggered to break out of all recursive calls.
 
-    @param puzzle A 9x9 numpy array representing the Sudoku puzzle.
-    @param solutions A list to store the solutions found.
-    @param candidates A 9x9 numpy array containing the possible candidate numbers for each square.
-    @param num_solutions The number of solutions to find (default is 1).
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the Sudoku puzzle.
+    @param solutions (list) A list to store the solutions found.
+    @param candidates (numpy.ndarray) A 9x9 numpy array containing the possible candidate numbers for each square.
+    @param num_solutions (int, optional) The number of solutions to find (default is 1).
 
     @return None. The function modifies the solutions list in place.
     """
@@ -67,9 +67,9 @@ def backtracker(puzzle, candidates=None, num_solutions=1):
     and calls the recursive 'solve' function. Handles scenarios where no solutions are found
     and ensures uniqueness of solutions.
 
-    @param puzzle A 9x9 numpy array representing the Sudoku puzzle.
-    @param candidates Optional. Precomputed candidate numbers for each square. Initialized if None.
-    @param num_solutions The number of solutions to find (default is 1).
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the Sudoku puzzle.
+    @param candidates (numpy.ndarray, optional) Precomputed candidate numbers for each square. Initialized if None.
+    @param num_solutions (int, optional) The number of solutions to find (default is 1).
 
     @return A single solution array if one solution is requested, a list of solutions if
     multiple solutions are requested, or the string "UNSOLVABLE" if no solutions are found.

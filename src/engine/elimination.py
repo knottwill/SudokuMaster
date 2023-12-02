@@ -23,7 +23,7 @@ def naked_singles_elimination(candidates):
 
     Reference: https://sudoku.com/sudoku-rules/obvious-singles/
 
-    @param candidates The candidates grid as a numpy array.
+    @param candidates (numpy.ndarray) The candidates grid as a numpy array.
 
     @return Updated candidates grid
     """
@@ -67,6 +67,9 @@ def unique_in_group(group, current_candidates):
     candidate grid, eg. One row). If so, we return the number that is unique.
     If not, we return None.
 
+    @param group (numpy.ndarray) The group of squares (part of the candidate grid)
+    @param current_candidates (set) The set of numbers to consider uniqueness in group
+
     @return Unique candidate or None (if no unique candidate is found).
     """
     # count how many times each candidate in current_candidates
@@ -99,7 +102,7 @@ def hidden_singles_elimination(candidates):
 
     Reference: https://sudoku.com/sudoku-rules/hidden-singles/
 
-    @param candidates The candidates grid as a numpy array.
+    @param candidates (numpy.ndarray) The candidates grid as a numpy array.
 
     @return Updated candidates grid
     """
@@ -151,7 +154,7 @@ def obvious_pairs_elimination(candidates):
 
     Reference: https://sudoku.com/sudoku-rules/obvious-pairs/
 
-    @param candidates The candidates grid as a numpy array.
+    @param candidates (numpy.ndarray) The candidates grid as a numpy array.
 
     @return Updated candidates grid
     """
@@ -210,7 +213,7 @@ def pointing_elimination(candidates):
     Reference 1: https://sudoku.com/sudoku-rules/pointing-pairs/
     Reference 2: https://sudoku.com/sudoku-rules/pointing-triples/
 
-    @param candidates The candidates grid as a numpy array.
+    @param candidates (numpy.ndarray) The candidates grid as a numpy array.
 
     @return Updated candidates grid
     """
@@ -265,7 +268,7 @@ def all_elimination(candidates):
     candidates grid in a loop until no more candidates can be eliminated using these
     techniques: 'Naked Singles', 'Hidden Singles', 'Obvious Pairs', 'Pointing Pairs/Triples'
 
-    @param candidates The candidates grid as a numpy array.
+    @param candidates (numpy.ndarray) The candidates grid as a numpy array.
 
     @return Updated candidates grid
     """

@@ -1,5 +1,5 @@
 """!@file io.py
-@brief Module for Output-related tools (relating to Sudoku puzzles).
+@brief Module for handling outputs of Sudoku solving program.
 
 @details This module contains tools for saving and printing puzzles
 and candidate grids.
@@ -13,7 +13,20 @@ from .validation import validate_puzzle
 
 def puzzle_to_string(puzzle, check_validity=True):
     """!
-    @brief Convert numpy array as sudoku puzzle to a string
+    @brief Convert a Sudoku puzzle from a numpy array to a string representation.
+
+    @details This function takes a 9x9 numpy array representing a Sudoku puzzle
+    and converts it into a string, formatted according to our specific criteria:
+    - Rows (each containing 9 digits) are separated by newlines
+    - Separator '|' added after every third digit in a row
+    - Row separator '---+---+---' added after every third row
+
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the Sudoku puzzle.
+    @param check_validity (bool, optional) Flag to indicate whether the puzzle
+    should be validated before conversion. Defaults to True.
+
+    @return A string representation of the Sudoku puzzle, formatted with row and digit separators.
+
     """
 
     # assert that the puzzle is a valid sudoku puzzle
@@ -38,7 +51,16 @@ def puzzle_to_string(puzzle, check_validity=True):
 
 def save_puzzle(filepath, puzzle, check_validity=True):
     """!
-    @brief Save a 9x9 numpy array as a sudoku puzzle to a given file.
+    @brief Save a Sudoku puzzle as a numpy array to a given file.
+
+    @details This function saves a Sudoku puzzle into a text file at the
+    filepath provided. The necessary directories in the filepath are
+    created if they do not exist.
+
+    @param filepath (str) The file path where the Sudoku puzzle will be saved. Must end with '.txt'.
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the Sudoku puzzle.
+    @param check_validity (bool, optional) Flag to indicate whether the puzzle should be
+    validated before saving. Defaults to True.
     """
     # check that we are saving to a text file
     assert filepath.endswith(".txt"), "Filepath must end with .txt"
@@ -58,7 +80,12 @@ def save_puzzle(filepath, puzzle, check_validity=True):
 
 def print_puzzle(puzzle):
     """!
-    @brief Prints numpy array as sudoku puzzle
+    @brief Prints numpy array representing a Sudoku puzzle in a visually intuitive way.
+
+    @details The function prints the puzzle in the format given by puzzle_to_string,
+    except with spaces added after each digit for better readability.
+
+    @param puzzle (numpy.ndarray): A 9x9 numpy array representing the Sudoku puzzle.
     """
     puzzle_str = puzzle_to_string(puzzle)
 
@@ -75,7 +102,14 @@ def print_puzzle(puzzle):
 
 def print_candidates(candidates):
     """!
-    @brief prints candidates grid in a visually intuitive way
+    @brief Prints the candidates grid for a Sudoku puzzle in a visually intuitive way.
+
+    @details This function takes a 9x9 grid of candidate sets for a Sudoku puzzle
+    and prints it in a formatted, readable manner. The function converts the candidate
+    sets to strings, pads them so that each square has the same length, and prints the
+    grid with separators.
+
+    @param candidates (numpy.ndarray) The candidates grid as a numpy array.
     """
     # output width of squares must be 10 (one more than max)
     # since the maxmimum candidates is '123456789'
