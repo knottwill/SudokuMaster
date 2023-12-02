@@ -6,7 +6,8 @@ import sys
 import numpy as np
 from time import time
 
-from toolkit.io import load_puzzle, print_puzzle, save_puzzle
+from toolkit.input import load_puzzle
+from toolkit.output import print_puzzle, save_puzzle
 from toolkit.validation import validate_solution
 from engine.basics import init_candidates, filler, solvable
 from engine.elimination import all_elimination

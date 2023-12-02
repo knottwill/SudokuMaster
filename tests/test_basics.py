@@ -1,5 +1,5 @@
 import numpy as np
-from src.toolkit.io import load_puzzle
+from src.toolkit.input import load_puzzle
 from src.toolkit.validation import validate_solution
 from src.engine.basics import init_candidates, filler, singles_filler
 

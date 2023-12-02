@@ -1,11 +1,7 @@
 import numpy as np
 import os
-from src.toolkit.io import (
-    load_puzzle,
-    save_puzzle,
-    puzzle_to_string,
-    parse_sudoku_string,
-)
+from src.toolkit.input import load_puzzle, parse_sudoku_string
+from src.toolkit.output import save_puzzle, puzzle_to_string
 import pytest
 
 

@@ -3,7 +3,7 @@ This file does specific tests for the backtracking algorithm
 """
 
 from src.toolkit.validation import validate_solution, validate_filled
-from src.toolkit.io import load_puzzle
+from src.toolkit.input import load_puzzle
 
 from src.engine.backtracking import backtracker
 import numpy as np
