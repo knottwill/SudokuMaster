@@ -1,6 +1,10 @@
 """!@file validation.py
 @brief Module containing tools for validating puzzles
 
+@details All validation functions in this module return strings
+which is either "Valid" or an error message explaining why
+the validation failed.
+
 @author Created by William Knottenbelt
 """
 import numpy as np
@@ -8,7 +12,11 @@ import numpy as np
 
 def is_unique(arr):
     """!
-    @brief Checks if all non-zero numbers in a 1D array are unique
+    @brief Checks if all non-zero numbers in a 1D array are unique.
+
+    @param arr (numpy.ndarray) A 1D numpy array
+
+    @return True if all non-zero numbers are unique, False otherwise.
     """
     arr = arr[arr > 0]  # Remove zeros
     return len(arr) == len(np.unique(arr))
@@ -21,16 +29,16 @@ def validate_puzzle(puzzle):
     @details
     This function checks for correct dimensions, valid entries, and
     whether there are duplicate numbers in each row, column or 3x3
-    block of the puzzle
+    block of the puzzle.
 
     Note:
     The function does not check if the puzzle is solvable
 
-    @param sudoku_arr: numpy.ndarray, A 9x9 NumPy array representing a Sudoku puzzle.
+    @param sudoku_arr (numpy.ndarray) A 9x9 numpy array representing a Sudoku puzzle.
 
-    @return str: "Valid" if the puzzle adheres to Sudoku rules, error message otherwise.
+    @return Returns "Valid" if the puzzle adheres to Sudoku rules;
+    otherwise, it returns an error message explaining why the validation failed.
     """
-
     # check puzzle is numpy array
     assert isinstance(puzzle, np.ndarray)
 
@@ -68,7 +76,16 @@ def validate_puzzle(puzzle):
 
 def validate_filled(puzzle):
     """!
-    @brief Evaluates whether a sudoku puzzle is entirely filled.
+    @brief Evaluates whether a sudoku puzzle is entirely filled and adheres to Sudoku rules.
+
+    @details This function uses 'validate_puzzle' to ensure that the puzzle is
+    valid and then checks for the presence of any empty cells (denoted by 0).
+
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing a Sudoku puzzle.
+
+    @return str: Returns "Valid" if the puzzle is completely filled and adheres to Sudoku rules;
+    Returns "Unfilled" if the puzzle adheres to Sudoku rules but contains empty squares;
+    Returns validation error message if the puzzle does not adhere to Sudoku rules.
     """
 
     message = validate_puzzle(puzzle)
@@ -84,17 +101,27 @@ def validate_filled(puzzle):
 
 def validate_solution(puzzle, solution):
     """!
-    @brief Validates whether a given solution is valid solution of a given puzzle
+    @brief Validates whether a given solution is a valid solution for a given Sudoku puzzle.
+
+    @details This function checks if a proposed solution is valid for a given Sudoku puzzle.
+    It first ensures the original puzzle is valid. Then it checks that the solution is a
+    filled puzzle using 'validate_filled'. Then it confirms the 'given' squares in the puzzle
+    match those in the solution.
+
+    @param puzzle (numpy.ndarray) A 9x9 numpy array representing the original Sudoku puzzle.
+    @param solution (numpy.ndarray) A 9x9 numpy array representing the proposed solution to the puzzle.
+
+    @return Returns "Valid" if the solution is valid; otherwise, returns an error message.
     """
+
+    # if the puzzle is invalid, there can be no solutions
+    if validate_puzzle(puzzle) != "Valid":
+        return "Puzzle Invalid"
 
     # if the solution is not a filled puzzle, it is not a solution
     filled_message = validate_filled(solution)
     if filled_message != "Valid":
         return "Solution is " + filled_message
-
-    # if the puzzle is invalid, there can be no solutions
-    if validate_puzzle(puzzle) != "Valid":
-        return "Puzzle Invalid"
 
     # indices of 'givens' - filled squares in puzzle
     given_indices = np.nonzero(puzzle)
