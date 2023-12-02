@@ -10,7 +10,11 @@ Will include:
 - Build status / Known bugs / version info (optional)
 - Credits
 
-<b> Warning: </b> Running tests in `tests/test_solver.py` may overwrite and delete solutions of puzzles you have saved in a directory `solutions/`, depending on the filenames. We recommend moving solutions elsewhere if you want to ensure they are untouched.
+# Sudoku Master
+
+## Description + Motivation
+
+Program to solve 9x9 Sudoku puzzles using the backtracking algorithm, paried with four candidate elimination techniques: 'Naked Singles', 'Hidden Singles', 'Obvious Pairs' (AKA 'Naked Pairs'), 'Pointing Pairs/Triples'.
 
 ## Contents
 
@@ -45,3 +49,21 @@ Project directory
 ├── LICENSE
 └── README.md
 ```
+
+## Installation
+
+## Accessing data
+
+Must run these commands from the root directory of the project and must run the commands exactly as they are written below (any name changes will cause the script to fail)
+
+```bash
+$ mkdir puzzles/
+$ curl https://norvig.com/top95.txt --output puzzles/hard.txt
+$ curl https://norvig.com/hardest.txt --output puzzles/hardest.txt
+$ curl https://projecteuler.net/project/resources/p096_sudoku.txt --output puzzles/easy.txt
+$ python convert_data.py
+```
+
+## Usage
+
+<b> Warning: </b> Running tests in `tests/test_solver.py` may overwrite and delete solutions of puzzles you have saved in a directory `solutions/`, depending on the filenames. We recommend moving solutions elsewhere if you want to ensure they are untouched.
