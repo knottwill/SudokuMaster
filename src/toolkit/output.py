@@ -1,4 +1,4 @@
-"""!@file io.py
+"""!@file input.py
 @brief Module for handling outputs of Sudoku solving program.
 
 @details This module contains tools for saving and printing puzzles
