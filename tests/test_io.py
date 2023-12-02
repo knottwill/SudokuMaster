@@ -27,16 +27,16 @@ def test_parse_sudoku_string():
     )
     with open(valid_form1, "r") as file:
         text = file.read()
-        valid, output = parse_sudoku_string(text)
-        assert valid
+        output = parse_sudoku_string(text)
+        assert isinstance(output, np.ndarray)
         assert np.array_equal(output, puzzle1)
 
     # test it works for puzzle with invalid format
     invalid_form1 = "tests/test_puzzles/invalid/invalid_form.txt"
     with open(invalid_form1, "r") as file:
         text = file.read()
-        valid, output = parse_sudoku_string(text)
-        assert not valid
+        output = parse_sudoku_string(text)
+        assert isinstance(output, str)
         assert output == "Too many digits on one or more rows."
 
     # test it works for invalid puzzle with valid format
@@ -56,8 +56,8 @@ def test_parse_sudoku_string():
     )
     with open(valid_form2, "r") as file:
         text = file.read()
-        valid, output = parse_sudoku_string(text)
-        assert valid
+        output = parse_sudoku_string(text)
+        assert isinstance(output, np.ndarray)
         assert np.array_equal(output, puzzle2)
 
 

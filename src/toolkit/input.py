@@ -1,5 +1,5 @@
 """!@file io.py
-@brief Module for loading Sudoku puzzles.
+@brief Module for handling inputs to the Sudoku solving program.
 
 @details This module contains tools for loading and converting puzzles.
 
@@ -11,23 +11,27 @@ from .validation import validate_puzzle
 
 def parse_sudoku_string(sudoku_str):
     """!
-    @brief Validate the format of a Sudoku puzzle as a string, and parse into numpy array.
+    @brief Parse Sudoku puzzle as a string into numpy array
 
-    @details This function checks if the input string represents a valid Sudoku puzzle
-    format. A valid Sudoku format is defined as a 9x9 grid of numbers (0-9),
-    where rows are separated by newlines, and digits can be separated using
-    symbols | - + ,
-    If the input string is valid, we return an array containing the puzzle
+    @details This function first validates that input string has a valid Sudoku
+    puzzle format. If so, it returns a numpy array containing the puzzle, otherwise
+    it returns the relevant error message explaining why the format is invalid.
+
+    A valid Sudoku format is defined relatively flexibly:
+    - A 9x9 grid of numbers (0-9)
+    - Empty squares must be represented by 0's
+    - Rows must be separated by new-lines
+    - Digits (within rows) can be separated using any of the symbols: | - + ,
+    - Rows can be separated using the same symbols.
 
     Note:
     The function does not check if the puzzle is solvable or if it adheres to
     Sudoku rules beyond formatting. It strictly checks the structural format.
 
-    @param sudoku_str: str, The input string to be validated
+    @param sudoku_str: str, The input string to be validated and parsed
 
-    @return tuple containing two elements:
-            - bool: True if the string has a valid format, False otherwise
-            - If True, second element is array containing puzzle. If False, element is error message
+    @return 9x9 numpy array representing puzzle if string represents valid Sudoku format,
+    or error message if not.
     """
     if not isinstance(sudoku_str, str):
         raise ValueError("Parameter sudoku_str must be a string")
@@ -48,29 +52,26 @@ def parse_sudoku_string(sudoku_str):
     # and the 9 characters are all digits [0-9]
     n_rows = len(rows)
     if n_rows != 9:
-        return (
-            False,
-            f"Number of rows containing digits must be 9, but {n_rows} were given.",
-        )
+        return f"Number of rows containing digits must be 9, but {n_rows} were given."
 
     for row in rows:
         # checking for non-digit characters left
         for char in row:
             if not char.isdigit():
-                return (False, f"Found unrecognised character '{char}'")
+                return f"Found unrecognised character '{char}'"
 
         # checking if there are 9 digits per row
         n_digits = len(row)
         if n_digits > 9:
-            return (False, "Too many digits on one or more rows.")
+            return "Too many digits on one or more rows."
         if n_digits < 9:
-            return (False, "Not enough digits on one or more rows.")
+            return "Not enough digits on one or more rows."
 
     # convert to array
     puzzle = np.array([[int(char) for char in row] for row in rows])
     assert puzzle.shape == (9, 9)  # ensure shape is 9x9
 
-    return (True, puzzle)
+    return puzzle
 
 
 def load_puzzle(filepath, check_validity=True):
@@ -90,10 +91,10 @@ def load_puzzle(filepath, check_validity=True):
     with open(filepath, "r") as file:
         text = file.read()
 
-    # validate format of contents
+    # parse text in file
     # if valid format, output is 9x9 array containing puzzle
-    valid_format, output = parse_sudoku_string(text)
-    if valid_format:
+    output = parse_sudoku_string(text)
+    if isinstance(output, np.ndarray):
         # output is array containing puzzle
         puzzle = output
     else:
