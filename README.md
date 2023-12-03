@@ -31,6 +31,7 @@ This program was developed to solve 9x9 Sudoku puzzles using the backtracking al
     │   ├── test_backtracking.py
     │   ├── test_basics.py
     │   ├── test_elimination.py
+    │   ├── test_generation.py
     │   ├── test_io.py
     │   ├── test_solver.py
     │   └── test_validation.py
