@@ -101,7 +101,7 @@ def load_puzzle(filepath, check_validity=True):
     format and puzzle are valid; otherwise, returns 'None'.
     """
     # ensuring the file provided is a text file
-    assert filepath[-4:] == ".txt"
+    assert filepath[-4:] == ".txt", "File must have extension .txt"
 
     with open(filepath, "r") as file:
         text = file.read()

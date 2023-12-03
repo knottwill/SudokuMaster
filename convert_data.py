@@ -61,3 +61,42 @@ for i, puzzle in enumerate(hardest_puzzles):
     num = str(i + 1)
     num = num if len(num) == 2 else "0" + num
     save_puzzle("puzzles/hardest/hardest_" + num + ".txt", puzzle)
+
+
+# --------------------
+# Saving the 'world's hardest puzzles'
+# -------------------
+
+# Worlds hardest puzzle, by Arto Inkala in 2012
+# https://www.telegraph.co.uk/news/science/science-news/9359579/Worlds-hardest-sudoku-can-you-crack-it.html
+hardest_2012 = np.array(
+    [
+        [8, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 3, 6, 0, 0, 0, 0, 0],
+        [0, 7, 0, 0, 9, 0, 2, 0, 0],
+        [0, 5, 0, 0, 0, 7, 0, 0, 0],
+        [0, 0, 0, 0, 4, 5, 7, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0, 3, 0],
+        [0, 0, 1, 0, 0, 0, 0, 6, 8],
+        [0, 0, 8, 5, 0, 0, 0, 1, 0],
+        [0, 9, 0, 0, 0, 0, 4, 0, 0],
+    ]
+)
+save_puzzle("puzzles/worlds_hardest_2012.txt", hardest_2012)
+
+# Previous worlds hardest puzzle, by Arto Inkala in 2010
+# https://www.dailymail.co.uk/news/article-1304222/It-took-months-create-long-crack--worlds-hardest-Sudoku.html
+hardest_2010 = np.array(
+    [
+        [0, 0, 5, 3, 0, 0, 0, 0, 0],
+        [8, 0, 0, 0, 0, 0, 0, 2, 0],
+        [0, 7, 0, 0, 1, 0, 5, 0, 0],
+        [4, 0, 0, 0, 0, 5, 3, 0, 0],
+        [0, 1, 0, 0, 7, 0, 0, 0, 6],
+        [0, 0, 3, 2, 0, 0, 0, 8, 0],
+        [0, 6, 0, 5, 0, 0, 0, 0, 9],
+        [0, 0, 4, 0, 0, 0, 0, 3, 0],
+        [0, 0, 0, 0, 0, 9, 7, 0, 0],
+    ]
+)
+save_puzzle("puzzles/worlds_hardest_2010.txt", hardest_2010)

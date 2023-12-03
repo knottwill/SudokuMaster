@@ -112,7 +112,7 @@ if num_solutions == 1:
     # save solution
     savepath = "./solutions/" + filename + "_solution.txt"
     save_puzzle(savepath, solution)
-    print(f"Solution saved in {savepath}")
+    print(f"Solution saved in {savepath}\n")
 
 else:
     # print & save all solutions
