@@ -1,3 +1,7 @@
+"""
+Robust testing for candidate elimination techniques
+"""
+
 import numpy as np
 from src.toolkit.input import load_puzzle
 from src.toolkit.validation import validate_solution
@@ -12,7 +16,10 @@ from src.engine.elimination import (
 
 
 def test_naked_singles():
-    # candidates for empty array (all numbers for all squares)
+    """
+    Test naked_singles_elimination
+    """
+    # candidates for empty array (all numbers are candidates for all squares)
     puzzle = np.zeros((9, 9), dtype=int)
     candidates = init_candidates(puzzle)
 
@@ -32,13 +39,16 @@ def test_naked_singles():
         *candidates[1:2, 1:2].flatten()  # 4 squares in rest of block
     )
 
-    # assert that 3 has been eliminated from the rest of the row, column or block
+    # assert that 3 has been eliminated from the rest of the row, column and block
     assert {3}.isdisjoint(rest_of_row), "Single not eliminated from rest of row"
     assert {3}.isdisjoint(rest_of_col), "Single not eliminated from rest of column"
     assert {3}.isdisjoint(rest_of_block), "Single not eliminated from rest of block"
 
 
 def test_hidden_singles():
+    """
+    Test hidden_singles_elimination
+    """
     # candidates for empty array (all numbers for all squares)
     puzzle = np.zeros((9, 9), dtype=int)
     candidates = init_candidates(puzzle)
@@ -66,12 +76,16 @@ def test_hidden_singles():
     # perform hidden singles elimination
     candidates = hidden_singles_elimination(candidates)
 
-    assert candidates[0, 0] == {3}, "Failed to find hidden single in column"
-    assert candidates[2, 8] == {4}, "Failed to find hidden single in row"
-    assert candidates[8, 8] == {6}, "Failed to find hidden single in block"
+    # assert that hidden singles have been found and processed
+    assert candidates[0, 0] == {3}, "Failed to process hidden single in column"
+    assert candidates[2, 8] == {4}, "Failed to process hidden single in row"
+    assert candidates[8, 8] == {6}, "Failed to process hidden single in block"
 
 
 def test_obvious_pairs():
+    """
+    Test obvious_pairs_elimination
+    """
     # candidates for empty array (all numbers for all squares)
     puzzle = np.zeros((9, 9), dtype=int)
     candidates = init_candidates(puzzle)
@@ -99,6 +113,9 @@ def test_obvious_pairs():
 
 
 def test_pointing():
+    """
+    Test pointing_elimination
+    """
     # candidates for empty array (all numbers for all squares)
     puzzle = np.zeros((9, 9), dtype=int)
     candidates = init_candidates(puzzle)
@@ -130,6 +147,9 @@ def test_pointing():
 
 
 def test_all_elimination():
+    """
+    Test all_elimination
+    """
     # all 3 easy puzzles can be solved using only elimination techniques
     path = "tests/test_puzzles/easy/easy_"
 

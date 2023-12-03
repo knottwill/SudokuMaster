@@ -1,5 +1,5 @@
 """
-This file does specific tests for the backtracking algorithm
+Robust testing for the backtracking algorithm
 """
 
 from src.toolkit.validation import validate_solution, validate_filled
@@ -16,6 +16,9 @@ puzzle_many = load_puzzle("tests/test_puzzles/10_solutions.txt")
 
 
 def test_single_solution():
+    """
+    Tests for finding single solutions using backtracking
+    """
     solution = backtracker(puzzle_one, num_solutions=1)
     assert validate_solution(puzzle_one, solution) == "Valid"
 
@@ -24,13 +27,17 @@ def test_single_solution():
 
 
 def test_multiple_solutions():
-    # suppose we ask for 3 solutions
+    """
+    Tests for finding multiple solutions using backtracking
+    """
+    # we request for 3 solutions
     solutions = backtracker(puzzle_many, num_solutions=3)
 
-    # assert we get list with 3 solutions
+    # assert we get list containing 3 solutions
     assert isinstance(solutions, list) and len(solutions) == 3
 
-    for solution in solutions:  # validate solutions
+    # check each solution is valid
+    for solution in solutions:
         assert validate_solution(puzzle_many, solution) == "Valid"
 
     # ---------------------------------------
@@ -53,12 +60,12 @@ def test_multiple_solutions():
 
 def test_unsolvability():
     """
-    Tests that backtracker discovers 3 puzzles are unsolvable
+    Tests that backtracker identifies when puzzles are unsolvable
     """
 
     # path containing files
     path = "tests/test_puzzles/unsolvable/unsolvable_"
 
-    for end in ["01.txt", "02.txt", "03.txt"]:
-        puzzle = load_puzzle(path + end)
+    for file in ["01.txt", "02.txt", "03.txt"]:
+        puzzle = load_puzzle(path + file)
         assert backtracker(puzzle) == "UNSOLVABLE"

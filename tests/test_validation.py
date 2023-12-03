@@ -1,3 +1,7 @@
+"""
+Robust testing for toolkit/validation.py
+"""
+
 import numpy as np
 from src.toolkit.validation import validate_puzzle, validate_filled, validate_solution
 
@@ -57,6 +61,10 @@ def test_validate_filled():
 
 
 def test_validate_solution():
+    """
+    Test validate_solution
+    """
+    # test on valid solution
     puzzle = np.array(
         [
             [0, 0, 0, 0, 0, 7, 0, 0, 0],
@@ -87,6 +95,7 @@ def test_validate_solution():
 
     assert validate_solution(puzzle, valid_solution) == "Valid"
 
+    # test on invalid solution
     invalid_solution = np.array(
         [
             [4, 8, 3, 9, 2, 1, 6, 5, 7],
@@ -108,6 +117,12 @@ def test_validate_solution():
 
 
 def test_validate_puzzle():
+    """
+    Test validate_puzzle
+
+    Checks that validation of puzzles works on many
+    different test cases
+    """
     # valid puzzle
     puzzle = np.array(
         [
