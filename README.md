@@ -2,7 +2,6 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;
 ![Python](https://img.shields.io/badge/python-v3.11.5-blue.svg)
-&nbsp;&nbsp;&nbsp;&nbsp;
 [![License](https://img.shields.io/badge/license-MIT-orange.svg)](https://opensource.org/licenses/MIT)
 
 
@@ -139,6 +138,10 @@ $ python src/solve_sudoku.py <file-containing-puzzle> [<num-solutions>]
 Arguments:
 - `<file-containing-puzzle>`: Specify the path to a text file containing the Sudoku puzzle you want to solve. The file should have a valid Sudoku puzzle format.
 
+- `<num-solutions>` (optional): Specify the number of solutions you want to find. If not provided, the default value is 1. If you specify more solutions than are possible, then all available solutions will be found.
+
+After running the command, the program will process the Sudoku puzzle provided. If solutions are found, they will be printed to the console and saved in `solutions/`.
+
 <details><summary><b>View valid Sudoku puzzle format</b></summary>
 
     003|020|600
@@ -153,11 +156,6 @@ Arguments:
     800|203|009
     005|010|300
 </details>
-<br>
-
-- `<num-solutions>` (optional): Specify the number of solutions you want to find. If not provided, the default value is 1. If you specify more solutions than are possible, then all available solutions will be found.
-
-After running the command, the program will process the Sudoku puzzle provided. If solutions are found, they will be printed to the console and saved in `solutions/`.
 
 <details><summary><b>View example usage 1</b></summary>
 

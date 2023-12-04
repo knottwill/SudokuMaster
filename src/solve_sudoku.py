@@ -128,4 +128,4 @@ else:
         # save solution
         savepath = "./solutions/" + filename + "_solution" + str(i + 1) + ".txt"
         save_puzzle(savepath, solution)
-        print(f"Solution saved in {savepath}")
+        print(f"Solution saved in {savepath}\n")
