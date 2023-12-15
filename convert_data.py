@@ -1,7 +1,15 @@
 import numpy as np
+import os
 
 from src.toolkit.output import save_puzzle
 from src.toolkit.input import parse_sudoku_string
+
+# asserting the files to convert have been downloaded
+assert os.path.exists("puzzles/easy.txt"), "Project Euler puzzles not found"
+assert os.path.exists("puzzles/hard.txt"), "Peter Norvig's 95 hard puzzles not found"
+assert os.path.exists(
+    "puzzles/hardest.txt"
+), "Peter Norvig's 11 hardest puzzles not found"
 
 # --------------------
 # Converting project euler puzzles
@@ -13,6 +21,11 @@ with open("puzzles/easy.txt", "r") as file:
 # split it up into grids
 grids = easy_content.split("Grid ")
 grids.pop(0)
+
+# assert there are 50 puzzles
+assert (
+    len(grids) == 50
+), "Project Euler's 50 puzzles not found inside 'puzzles/easy.txt'"
 
 for grid in grids:
     # Splitting the grid number and the grid content
@@ -43,6 +56,11 @@ hard_strings = hard_content.split("\n")
 hard_strings = [p for p in hard_strings if p != ""]
 hard_puzzles = [convert_to_array(p) for p in hard_strings]
 
+# assert there are 95 hard puzzles
+assert (
+    len(hard_puzzles) == 95
+), "Peter Norvig's 95 hard puzzles not found inside 'puzzles/hard.txt'"
+
 # save each puzzle to its own file
 for i, puzzle in enumerate(hard_puzzles):
     num = str(i + 1)
@@ -56,6 +74,10 @@ with open("puzzles/hardest.txt", "r") as file:
 hardest_strings = hardest_content.split("\n")
 hardest_strings = [p for p in hardest_strings if p != ""]
 hardest_puzzles = [convert_to_array(p) for p in hardest_strings]
+
+assert (
+    len(hardest_puzzles) == 11
+), "Peter Norvig's 11 hardest puzzles not found inside 'puzzles/hardest.txt"
 
 for i, puzzle in enumerate(hardest_puzzles):
     num = str(i + 1)
