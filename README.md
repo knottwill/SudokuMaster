@@ -37,8 +37,8 @@ This program was developed to solve 9x9 Sudoku puzzles using the backtracking al
     ├── .gitignore              # specifies untracked files to ignore
     ├── .pre-commit-config.yaml # config for pre-commit hooks
     ├── Dockerfile              # containerisation instructions
-    ├── LICENSE
-    ├── README.md
+    ├── LICENSE                 # license for project
+    ├── README.md               # this file
     ├── convert_data.py         # script for data conversion
     └── environment.yml         # environment specifications
 
@@ -57,9 +57,10 @@ This program was developed to solve 9x9 Sudoku puzzles using the backtracking al
 
 ## Features
 
-1. <b>Comprehensive Sudoku Solving Engine</b>
+1. <b>Efficient Sudoku Solving Engine</b>
     - Four candidate elimination techniques ('Naked Singles', 'Hidden Singles', 'Obvious Pairs', 'Pointing Pairs/Triples')
     - Backtracking algorithm (enhanced with candidate elimination to reduce search space)
+    - Ability to find multiple solutions
 
 2. <b>Input/Output handling and visualisation</b>
     - Loading puzzles from text files
@@ -99,13 +100,7 @@ $ conda env create -f environment.yml -n <environment-name>
 $ conda activate <environment-name>
 ```
 
-Alternatively, create a new environment and install the dependancies manually: (although, new versions of these packages could cause conflics in the project, so be warned.)
-
-```bash
-$ conda install numpy black flake8 pytest pre-commit line_profiler
-```
-
-To access all puzzles used for evaluation of algorithms during development, run these commands from the root directory:
+To access all puzzles used for evaluation of algorithms during development, run the following commands from the root directory (the output names must be exactly what is given below, otherwise the `convert_data.py` script will fail):
 
 ```bash
 $ mkdir puzzles/
@@ -128,6 +123,9 @@ $ pytest
 
 > **Warning**
 > Running the tests in `tests/test_solver.py` may overwrite solutions saved in `solutions/`. Backup your solutions before running tests.
+
+> **Warning**
+> If you checkout early commits of the project, ensure that you have a `puzzles/` directory in the root of the project before running the testing suite (some tests originally depended on this). The `Dockerfile` will create this directory automatically.
 
 ### Solving Puzzles
 
