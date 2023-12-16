@@ -21,7 +21,7 @@ RUN conda env update --file environment.yml --name base
 # 'exit 0' allows the build to continue even when obtaining the data failed
 # (in the future the datasets may not remain publicly available)
 RUN mkdir -p puzzles \
-    && curl https://norvigasdlfjasdlfjasldfjasdflj.com/top95.txt --output puzzles/hard.txt \
+    && curl https://norvig.com/top95.txt --output puzzles/hard.txt \
     && curl https://norvig.com/hardest.txt --output puzzles/hardest.txt \
     && curl https://projecteuler.net/project/resources/p096_sudoku.txt --output puzzles/easy.txt \
     ; exit 0
