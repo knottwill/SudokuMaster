@@ -84,6 +84,9 @@ def backtracker(puzzle, candidates=None, num_solutions=1):
     if candidates is None:
         candidates = init_candidates(puzzle)
 
+    # type-check candidates grid
+    assert isinstance(candidates, np.ndarray) and candidates.dtype == object
+
     # find solutions
     solve(puzzle, solutions, candidates, num_solutions)
 
@@ -91,7 +94,7 @@ def backtracker(puzzle, candidates=None, num_solutions=1):
     if not solutions:
         return "UNSOLVABLE"
 
-    # if we want 1 solution, don't return as a list
+    # if 1 solution is specified, return just the array (not in a list)
     if num_solutions == 1:
         assert len(solutions) == 1
         return solutions[0]

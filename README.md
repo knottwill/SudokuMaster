@@ -4,8 +4,9 @@
 ![Python](https://img.shields.io/badge/python-v3.11.5-blue.svg)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg)](https://opensource.org/licenses/MIT)
 
+This program can be used to efficiently solve ANY 9x9 Sudoku puzzle, via the backtracking algorithm paired with four candidate elimination techniques: 'Naked Singles', 'Hidden Singles', 'Obvious Pairs' (AKA 'Naked Pairs'), 'Pointing Pairs/Triples'.
 
-This program was developed to solve 9x9 Sudoku puzzles using the backtracking algorithm, paired with four candidate elimination techniques: 'Naked Singles', 'Hidden Singles', 'Obvious Pairs' (AKA 'Naked Pairs'), 'Pointing Pairs/Triples'.
+This project (codebase & report) was submitted in fulfillment of the coursework assignment detailed in `assignment.md`. The purpose of this project was to demonstrate proper software development best practices by utilising: Git, Docker, Conda, Unit testing, Error trapping, Profiling, Doxygen, Pre-commit hooks, Linting, Modularity, Prototyping etc.
 
 <details><summary><b>View Project Structure</b></summary>
 
@@ -36,6 +37,7 @@ This program was developed to solve 9x9 Sudoku puzzles using the backtracking al
     │   └── test_validation.py
     ├── .gitignore              # specifies untracked files to ignore
     ├── .pre-commit-config.yaml # config for pre-commit hooks
+    ├── assignment.md           # coursework assignment
     ├── Dockerfile              # containerisation instructions
     ├── LICENSE                 # license for project
     ├── README.md               # this file
@@ -60,18 +62,20 @@ This program was developed to solve 9x9 Sudoku puzzles using the backtracking al
 1. <b>Efficient Sudoku Solving Engine</b>
     - Four candidate elimination techniques ('Naked Singles', 'Hidden Singles', 'Obvious Pairs', 'Pointing Pairs/Triples')
     - Backtracking algorithm (enhanced with candidate elimination to reduce search space)
-    - Ability to find multiple solutions
 
-2. <b>Input/Output handling and visualisation</b>
+2. <b>Ability to find multiple solutions</b>
+    - Option to specify how many solutions to a provided puzzle are desired.
+
+3. <b>Input/Output handling and visualisation</b>
     - Loading puzzles from text files
     - Saving puzzles as text files
     - Intuitive visualisation of puzzles and candidate grids (printed to console)
 
-3. <b>Extensive Validation and Testing</b>
+4. <b>Extensive Validation and Testing</b>
     - Validating puzzles and solutions to puzzles
     - Rigorous tests of all core components to ensure reliability
 
-4. <b>Puzzle Generation</b>
+5. <b>Puzzle Generation</b>
     - Generation of example puzzles which can solved by repeatedly filling in 'Naked Singles'
 
 ## Installation

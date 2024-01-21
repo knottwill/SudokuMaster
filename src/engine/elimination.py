@@ -221,9 +221,6 @@ def pointing_elimination(candidates):
     assert isinstance(candidates, np.ndarray) and candidates.dtype == object
     assert candidates.shape == (9, 9)
 
-    # take copy of candidates grid to avoid modifying the original
-    # candidates = copy.deepcopy(candidates)
-
     # loop over each block
     for block_i in range(0, 9, 3):
         for block_j in range(0, 9, 3):
