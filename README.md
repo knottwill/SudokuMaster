@@ -6,7 +6,9 @@
 
 This program can be used to efficiently solve ANY 9x9 Sudoku puzzle, via the backtracking algorithm paired with four candidate elimination techniques: 'Naked Singles', 'Hidden Singles', 'Obvious Pairs' (AKA 'Naked Pairs'), 'Pointing Pairs/Triples'.
 
-This project (codebase & report) was submitted in fulfillment of the coursework assignment detailed in `assignment.md`. The purpose of this project was to demonstrate proper software development best practices by utilising: Git, Docker, Conda, Unit testing, Error trapping, Profiling, Doxygen, Pre-commit hooks, Linting, Modularity, Prototyping etc.
+The codebase & report contained in this repository was submitted in fulfillment of the coursework assignment detailed in `assignment.md`. The purpose of this project was to demonstrate proper software development best practices by utilising: Git, Docker, Conda, Unit testing, Error trapping, Profiling, Doxygen, Pre-commit hooks, Linting, Modularity, Prototyping etc.
+
+This submission recieved a grade of 83% (may be subject to moderation in Final Examiners' Meeting in September 2024).
 
 <details><summary><b>View Project Structure</b></summary>
 
